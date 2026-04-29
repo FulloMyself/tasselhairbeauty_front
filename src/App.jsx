@@ -39,7 +39,7 @@ function App() {
   };
 
   return (
-    <Router future={routerFuture}>
+    <Router future={routerFuture} basename="/tasselhairbeauty_front">
       <AuthProvider>
         <CartProvider>
           <UserProvider>
