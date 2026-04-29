@@ -34,17 +34,17 @@ const Home = () => {
 
   // Gallery items
   const galleryItems = [
-    { type: 'photo', category: 'kids', src: './assets/images/compressed_CuteBabyBraids.jpeg}', caption: 'Kiddies Braiding' },
-    { type: 'photo', category: 'studio', src: './assets/images/compressed_KiddiesStation.jpeg}', caption: 'Kiddies Station' },
-    { type: 'video', category: 'barber', src: './assets/videos/MensCutAndWash.mp4}', poster: './assets/images/MensHairCut.png', caption: 'Men\'s Haircut Session' },
-    { type: 'photo', category: 'hair', src: './assets/images/compressed_AdultHair.jpeg}', caption: 'Professional Styling' },
-    { type: 'photo', category: 'kids', src: './assets/images/KiddiesHairstyleSession.jpeg}', caption: 'Kiddies Hairstyle Session' },
-    { type: 'video', category: 'welcome', src: './assets/videos/Welcome.mp4}', poster: './assets/images/compressed_Receptionist.jpeg', caption: 'Welcome To Tassel' },
-    { type: 'photo', category: 'kids', src: './assets/images/CuteBabyTasselLogo.jpeg}', caption: 'Happy Kids, Beautiful Experiences' },
-    { type: 'video', category: 'nails', src: './assets/videos/Tassel.mp4}', poster: './assets/images/compressed_TasselNailBar.jpeg', caption: 'Book With Us' },
-    { type: 'photo', category: 'studio', src: './assets/images/compressed_Seat.jpeg}', caption: 'Relaxation Lounge' },
-    { type: 'video', category: 'barber', src: './assets/videos/BarbarSection.mp4}', poster: './assets/images/MensHairstyle.png', caption: 'Barber Section' },
-    { type: 'video', category: 'welcome', src: './assets/videos/Books.mp4}', poster: './assets/images/KiddiesCorner.jpeg', caption: 'Kiddies Corner' }
+    { type: 'photo', category: 'kids', src: './assets/images/compressed_CuteBabyBraids.jpeg', poster: './assets/images/compressed_CuteBabyBraids.jpeg', caption: 'Kiddies Braiding' },
+    { type: 'photo', category: 'studio', src: './assets/images/compressed_KiddiesStation.jpeg', poster: './assets/images/KiddiesCorner.jpeg', caption: 'Kiddies Station' },
+    { type: 'video', category: 'barber', src: './assets/videos/MensCutAndWash.mp4', poster: './assets/images/MensHairCut.png', caption: 'Men\'s Haircut Session' },
+    { type: 'photo', category: 'hair', src: './assets/images/compressed_AdultHair.jpeg', caption: 'Professional Styling' },
+    { type: 'photo', category: 'kids', src: './assets/images/KiddiesHairstyleSession.jpeg', caption: 'Kiddies Hairstyle Session' },
+    { type: 'video', category: 'welcome', src: './assets/videos/Welcome.mp4', poster: './assets/images/compressed_Receptionist.jpeg', caption: 'Welcome To Tassel' },
+    { type: 'photo', category: 'kids', src: './assets/images/CuteBabyTasselLogo.jpeg', caption: 'Happy Kids, Beautiful Experiences' },
+    { type: 'video', category: 'nails', src: './assets/videos/Tassel.mp4', poster: './assets/images/compressed_TasselNailBar.jpeg', caption: 'Book With Us' },
+    { type: 'photo', category: 'studio', src: './assets/images/compressed_Seat.jpeg', caption: 'Relaxation Lounge' },
+    { type: 'video', category: 'barber', src: './assets/videos/BarbarSection.mp4', poster: './assets/images/MensHairstyle.png', caption: 'Barber Section' },
+    { type: 'video', category: 'welcome', src: './assets/videos/Books.mp4', poster: './assets/images/KiddiesCorner.jpeg', caption: 'Kiddies Corner' }
   ];
 
   // Auto-advance carousel
