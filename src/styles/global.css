@@ -435,3 +435,139 @@ footer {
     margin: 0 10px;
   }
 }
+
+/* ========== HAMBURGER MENU ========== */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 26px;
+  height: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+}
+
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--deep);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Nav Logout Button */
+.nav-logout-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0;
+  font-family: var(--font-sans);
+}
+
+.nav-logout-btn:hover {
+  color: var(--gold);
+}
+
+/* Desktop Book Button */
+.desktop-book-btn {
+  display: inline-flex;
+}
+
+/* ========== MOBILE RESPONSIVE ========== */
+@media (max-width: 1000px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .desktop-book-btn {
+    display: none;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 300px;
+    max-width: 80vw;
+    height: 100vh;
+    background: rgba(250, 248, 245, 0.98);
+    backdrop-filter: blur(10px);
+    flex-direction: column;
+    padding: 100px 30px 30px;
+    gap: 1.2rem;
+    transition: right 0.3s ease;
+    box-shadow: -5px 0 30px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    overflow-y: auto;
+  }
+
+  .nav-links.show {
+    right: 0;
+  }
+
+  .nav-links a,
+  .nav-links button,
+  .nav-logout-btn {
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    padding: 12px 0;
+    display: block;
+    width: 100%;
+    text-align: left;
+    border-bottom: 1px solid rgba(154, 128, 96, 0.15);
+  }
+
+  .nav-links a:last-child,
+  .nav-links button:last-child {
+    border-bottom: none;
+  }
+
+  /* Floating book button for mobile */
+  .float-book {
+    display: flex;
+  }
+}
+
+@media (max-width: 480px) {
+  nav {
+    padding: 12px 20px;
+  }
+
+  .logo {
+    font-size: 1.3rem;
+  }
+
+  .logo span {
+    font-size: 0.5rem;
+  }
+
+  .nav-links {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .nav-links a,
+  .nav-links button {
+    font-size: 0.8rem;
+  }
+}
