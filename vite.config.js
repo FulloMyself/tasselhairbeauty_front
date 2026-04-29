@@ -4,7 +4,8 @@ import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/tasselhairbeauty_front',
+  // CRITICAL: Must match your GitHub Pages URL path
+  base: '/tasselhairbeauty_front/',
   server: {
     port: 5174,
     proxy: {
@@ -19,7 +20,7 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: false,
-    minify: 'terser',
+    minify: 'esbuild',
     chunkSizeWarningLimit: 1000,
   },
   resolve: {
