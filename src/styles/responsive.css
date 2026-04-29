@@ -1,0 +1,145 @@
+/* responsive.css - Additional responsive adjustments */
+
+/* Tablet and smaller desktop */
+@media (max-width: 1200px) {
+  .container {
+    padding: 0 20px;
+  }
+}
+
+/* Tablet */
+@media (max-width: 992px) {
+  .nav-links {
+    gap: 1.5rem;
+  }
+  
+  .nav-links a {
+    font-size: 0.6rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  nav {
+    padding: 15px 20px;
+  }
+  
+  .logo {
+    font-size: 1.4rem;
+  }
+  
+  .logo span {
+    font-size: 0.5rem;
+  }
+  
+  .nav-links {
+    display: none;
+  }
+  
+  .nav-btn {
+    padding: 8px 16px;
+    font-size: 0.6rem;
+  }
+  
+  .float-book {
+    bottom: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    font-size: 0.65rem;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+  }
+  
+  h2 {
+    font-size: 2rem;
+  }
+  
+  .section-wrap {
+    padding: 60px 20px;
+  }
+  
+  .intro-strip {
+    font-size: 1.1rem;
+    padding: 2.5rem 1.5rem;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .logo {
+    font-size: 1.2rem;
+  }
+  
+  .btn-primary,
+  .btn-outline {
+    padding: 12px 24px;
+    font-size: 0.6rem;
+  }
+  
+  .btn-group {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .btn-group .btn-primary,
+  .btn-group .btn-outline {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+  
+  h2 {
+    font-size: 1.6rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  nav,
+  .float-book,
+  .footer-links,
+  .btn-group {
+    display: none !important;
+  }
+  
+  body {
+    background: white;
+    color: black;
+  }
+  
+  .section-wrap {
+    padding: 20px;
+    page-break-inside: avoid;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --gold: #8a7050;
+    --deep: #000000;
+    --text: #000000;
+  }
+  
+  .btn-primary,
+  .btn-outline {
+    border: 2px solid currentColor;
+  }
+}
