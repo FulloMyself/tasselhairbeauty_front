@@ -37,14 +37,14 @@ const Home = () => {
     { type: 'photo', category: 'kids', src: '{`${basePath}/assets/images/compressed_CuteBabyBraids.jpeg}', caption: 'Kiddies Braiding' },
     { type: 'photo', category: 'studio', src: '{`${basePath}/assets/images/compressed_KiddiesStation.jpeg}', caption: 'Kiddies Station' },
     { type: 'video', category: 'barber', src: '{`${basePath}/assets/videos/MensCutAndWash.mp4}', poster: '/assets/images/MensHairCut.png', caption: 'Men\'s Haircut Session' },
-    { type: 'photo', category: 'hair', src: '/assets/images/compressed_AdultHair.jpeg', caption: 'Professional Styling' },
-    { type: 'photo', category: 'kids', src: '/assets/images/KiddiesHairstyleSession.jpeg', caption: 'Kiddies Hairstyle Session' },
-    { type: 'video', category: 'welcome', src: '/assets/videos/Welcome.mp4', poster: '/assets/images/compressed_Receptionist.jpeg', caption: 'Welcome To Tassel' },
-    { type: 'photo', category: 'kids', src: '/assets/images/CuteBabyTasselLogo.jpeg', caption: 'Happy Kids, Beautiful Experiences' },
-    { type: 'video', category: 'nails', src: '/assets/videos/Tassel.mp4', poster: '/assets/images/compressed_TasselNailBar.jpeg', caption: 'Book With Us' },
-    { type: 'photo', category: 'studio', src: '/assets/images/compressed_Seat.jpeg', caption: 'Relaxation Lounge' },
-    { type: 'video', category: 'barber', src: '/assets/videos/BarbarSection.mp4', poster: '/assets/images/MensHairstyle.png', caption: 'Barber Section' },
-    { type: 'video', category: 'welcome', src: '/assets/videos/Books.mp4', poster: '/assets/images/KiddiesCorner.jpeg', caption: 'Kiddies Corner' }
+    { type: 'photo', category: 'hair', src: '{`${basePath}/assets/images/compressed_AdultHair.jpeg}', caption: 'Professional Styling' },
+    { type: 'photo', category: 'kids', src: '{`${basePath}/assets/images/KiddiesHairstyleSession.jpeg}', caption: 'Kiddies Hairstyle Session' },
+    { type: 'video', category: 'welcome', src: '{`${basePath}/assets/videos/Welcome.mp4}', poster: '/assets/images/compressed_Receptionist.jpeg', caption: 'Welcome To Tassel' },
+    { type: 'photo', category: 'kids', src: '{`${basePath}/assets/images/CuteBabyTasselLogo.jpeg}', caption: 'Happy Kids, Beautiful Experiences' },
+    { type: 'video', category: 'nails', src: '{`${basePath}/assets/videos/Tassel.mp4}', poster: '/assets/images/compressed_TasselNailBar.jpeg', caption: 'Book With Us' },
+    { type: 'photo', category: 'studio', src: '{`${basePath}/assets/images/compressed_Seat.jpeg}', caption: 'Relaxation Lounge' },
+    { type: 'video', category: 'barber', src: '{`${basePath}/assets/videos/BarbarSection.mp4}', poster: '/assets/images/MensHairstyle.png', caption: 'Barber Section' },
+    { type: 'video', category: 'welcome', src: '{`${basePath}/assets/videos/Books.mp4}', poster: '/assets/images/KiddiesCorner.jpeg', caption: 'Kiddies Corner' }
   ];
 
   // Auto-advance carousel
@@ -155,7 +155,7 @@ const Home = () => {
         <section id="hero" className="hero-carousel">
           <div className="carousel-container">
             <div className={`carousel-slide ${currentSlide === 0 ? 'active' : ''}`}>
-              <img src="/assets/images/compressed_TasselNailBar.jpeg" alt="Luxury nail bar" className="carousel-image" />
+              <img src="./assets/images/compressed_TasselNailBar.jpeg" alt="Luxury nail bar" className="carousel-image" />
               <div className="carousel-overlay"></div>
               <div className="carousel-content">
                 <p className="hero-tag">Glenvista · Johannesburg South</p>
@@ -168,20 +168,20 @@ const Home = () => {
               </div>
             </div>
             <div className={`carousel-slide ${currentSlide === 1 ? 'active' : ''}`}>
-              <img src="/assets/images/compressed_FullTeam.jpeg" alt="Tassel Team" className="carousel-image" />
+              <img src="./assets/images/compressed_FullTeam.jpeg" alt="Tassel Team" className="carousel-image" />
               <div className="carousel-overlay"></div>
               <div className="carousel-content">
                 <p className="hero-tag">Top Class Team</p>
                 <h1>Hairstylists, <br /><em>Beauty Experts</em></h1>
                 <p className="hero-sub">Beauty for the whole family — a wholistic approach to family time.</p>
                 <div className="btn-group">
-                  <a href="assets/pricelists/Tassel_Barber_Price_List.pdf" className="btn-primary" target="_blank" rel="noopener noreferrer"><i className="fas fa-cut"></i> View Barber Prices</a>
+                  <a href="./assets/pricelists/Tassel_Barber_Price_List.pdf" className="btn-primary" target="_blank" rel="noopener noreferrer"><i className="fas fa-cut"></i> View Barber Prices</a>
                   <button className="btn-outline" onClick={openBooking}><i className="fas fa-scissors"></i> Book Barber Slot</button>
                 </div>
               </div>
             </div>
             <div className={`carousel-slide ${currentSlide === 2 ? 'active' : ''}`}>
-              <img src="/assets/images/compressed_KiddiesStation.jpeg" alt="Kiddies Station" className="carousel-image" />
+              <img src="./assets/images/compressed_KiddiesStation.jpeg" alt="Kiddies Station" className="carousel-image" />
               <div className="carousel-overlay"></div>
               <div className="carousel-content">
                 <p className="hero-tag">One-Stop Family Beauty</p>
@@ -227,14 +227,14 @@ const Home = () => {
           <div className="container">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '20px', marginBottom: '40px' }}>
               <div><p className="label fade">What we offer</p><h2 className="fade" style={{ marginBottom: 0 }}>Our services</h2></div>
-              <a href="/assets/pricelists/Tassel_Full_Services_PriceList.pdf" className="btn-primary" target="_blank" rel="noopener noreferrer" download><i className="fas fa-file-pdf"></i> View All Prices</a>
+              <a href="./assets/pricelists/Tassel_Full_Services_PriceList.pdf" className="btn-primary" target="_blank" rel="noopener noreferrer" download><i className="fas fa-file-pdf"></i> View All Prices</a>
             </div>
             <div className="services-grid">
-              <a href="/assets/pricelists/Tassel_Kiddies_Hair_PriceList.pdf" className="service-card fade" target="_blank" rel="noopener noreferrer" download><img src="/assets/images/compressed_KiddiesCuteHairstyle.jpeg" alt="Child getting hair done" className="service-img" /><h3 className="service-name">Kiddies Hair</h3><span className="service-link">Download Price List <i className="fas fa-download"></i></span></a>
-              <a href="/assets/pricelists/Tassel_Barber_Price_List.pdf" className="service-card fade" target="_blank" rel="noopener noreferrer" download><img src="/assets/images/BarbarSection.jpeg" alt="Barber services" className="service-img" /><h3 className="service-name">Barber</h3><span className="service-link">Download Price List <i className="fas fa-download"></i></span></a>
-              <a href="/assets/pricelists/Tassel_Adult_Hair_Pricelist.pdf" className="service-card fade" target="_blank" rel="noopener noreferrer" download><img src="/assets/images/compressed_AdultHair.jpeg" alt="Woman's hair styled" className="service-img" /><h3 className="service-name">Adult Hair</h3><span className="service-link">Download Price List <i className="fas fa-download"></i></span></a>
-              <a href="/assets/pricelists/Tassel_Full_Services_PriceList.pdf" className="service-card fade" target="_blank" rel="noopener noreferrer" download><img src="/assets/images/compressed_TasselNails.jpg" alt="Tassel Luxury Beauty Studio" className="service-img" /><h3 className="service-name">Nails</h3><span className="service-link">Download Price List <i className="fas fa-download"></i></span></a>
-              <a href="/assets/pricelists/Tassel_Services_PriceList.pdf" className="service-card fade" target="_blank" rel="noopener noreferrer" download><img src="/assets/images/TasselProducts.jpeg" alt="Facial treatment" className="service-img" /><h3 className="service-name">Skin & Beauty</h3><span className="service-link">Download Price List <i className="fas fa-download"></i></span></a>
+              <a href="./assets/pricelists/Tassel_Kiddies_Hair_PriceList.pdf" className="service-card fade" target="_blank" rel="noopener noreferrer" download><img src="/assets/images/compressed_KiddiesCuteHairstyle.jpeg" alt="Child getting hair done" className="service-img" /><h3 className="service-name">Kiddies Hair</h3><span className="service-link">Download Price List <i className="fas fa-download"></i></span></a>
+              <a href="./assets/pricelists/Tassel_Barber_Price_List.pdf" className="service-card fade" target="_blank" rel="noopener noreferrer" download><img src="/assets/images/BarbarSection.jpeg" alt="Barber services" className="service-img" /><h3 className="service-name">Barber</h3><span className="service-link">Download Price List <i className="fas fa-download"></i></span></a>
+              <a href="./assets/pricelists/Tassel_Adult_Hair_Pricelist.pdf" className="service-card fade" target="_blank" rel="noopener noreferrer" download><img src="/assets/images/compressed_AdultHair.jpeg" alt="Woman's hair styled" className="service-img" /><h3 className="service-name">Adult Hair</h3><span className="service-link">Download Price List <i className="fas fa-download"></i></span></a>
+              <a href="./assets/pricelists/Tassel_Full_Services_PriceList.pdf" className="service-card fade" target="_blank" rel="noopener noreferrer" download><img src="/assets/images/compressed_TasselNails.jpg" alt="Tassel Luxury Beauty Studio" className="service-img" /><h3 className="service-name">Nails</h3><span className="service-link">Download Price List <i className="fas fa-download"></i></span></a>
+              <a href="./assets/pricelists/Tassel_Services_PriceList.pdf" className="service-card fade" target="_blank" rel="noopener noreferrer" download><img src="/assets/images/TasselProducts.jpeg" alt="Facial treatment" className="service-img" /><h3 className="service-name">Skin & Beauty</h3><span className="service-link">Download Price List <i className="fas fa-download"></i></span></a>
             </div>
           </div>
         </section>
@@ -252,11 +252,11 @@ const Home = () => {
                   <div className="feature-item"><span className="feature-icon"><i className="fas fa-child"></i></span><div><h4>Kiddies Barber</h4><p>Gentle cuts for little gentlemen — patient & professional.</p></div></div>
                 </div>
                 <div className="btn-group fade">
-                  <a href="/assets/pricelists/Tassel_Barber_Price_List.pdf" className="btn-primary" target="_blank" rel="noopener noreferrer"><i className="fas fa-cut"></i> View Barber Prices</a>
+                  <a href="./assets/pricelists/Tassel_Barber_Price_List.pdf" className="btn-primary" target="_blank" rel="noopener noreferrer"><i className="fas fa-cut"></i> View Barber Prices</a>
                   <button className="btn-outline" onClick={openBooking}><i className="fas fa-scissors"></i> Book Now</button>
                 </div>
               </div>
-              <div className="barber-image fade"><img src="/assets/images/BarbarSection.jpeg" alt="Barber Section at Tassel Studio" className="barber-img" /></div>
+              <div className="barber-image fade"><img src="./assets/images/BarbarSection.jpeg" alt="Barber Section at Tassel Studio" className="barber-img" /></div>
             </div>
           </div>
         </section>
@@ -268,12 +268,12 @@ const Home = () => {
             <h2 className="fade">Current Specials</h2>
             <div className="specials-carousel-container">
               <div className="specials-carousel">
-                <div className={`special-slide ${currentSpecialSlide === 0 ? 'active' : ''}`}><div className="special-card featured"><img src="/assets/specials/OpeningSpecials.jpeg" alt="FREE Kiddies Party Pack" className="special-poster" /><div className="special-badge"><i className="fas fa-fire"></i> HOT DEAL</div><div className="special-overlay"><h3>FREE Kiddies Party Pack</h3><p>With any kiddies haircut or styling service</p><div className="special-valid">Valid until: 30 April 2026</div><button className="btn-special" onClick={openBooking}><i className="fas fa-arrow-right"></i> Claim Now</button></div></div></div>
-                <div className={`special-slide ${currentSpecialSlide === 1 ? 'active' : ''}`}><div className="special-card"><img src="/assets/specials/MidweekGlow.jpeg" alt="Midweek Glow" className="special-poster" /><div className="special-overlay"><h3>Midweek Glow</h3><p>With any beauty service</p><div className="special-valid">Limited time offer</div><button className="btn-special" onClick={openBooking}><i className="fas fa-arrow-right"></i> Book Now</button></div></div></div>
-                <div className={`special-slide ${currentSpecialSlide === 2 ? 'active' : ''}`}><div className="special-card"><img src="/assets/specials/WaxyWednesdays.jpeg" alt="Waxy Wednesdays" className="special-poster" /><div className="special-overlay"><h3>Waxy Wednesdays</h3><p>With any beauty service</p><div className="special-valid">Limited time offer</div><button className="btn-special" onClick={openBooking}><i className="fas fa-arrow-right"></i> Book Now</button></div></div></div>
-                <div className={`special-slide ${currentSpecialSlide === 3 ? 'active' : ''}`}><div className="special-card"><img src="/assets/specials/DadxMiniSpecial.jpeg" alt="Daddy & Mini" className="special-poster" /><div className="special-overlay"><h3>Daddy & Mini Special</h3><p>With any beauty service</p><div className="special-valid">Limited time offer</div><button className="btn-special" onClick={openBooking}><i className="fas fa-arrow-right"></i> Book Now</button></div></div></div>
-                <div className={`special-slide ${currentSpecialSlide === 4 ? 'active' : ''}`}><div className="special-card"><img src="/assets/specials/Mother's Day_page-0001.jpg" alt="Mother's Day Sale" className="special-poster" /><div className="special-overlay"><h3>Mother's Day Sale</h3><p>With any beauty service</p><div className="special-valid">Limited time offer</div><button className="btn-special" onClick={openBooking}><i className="fas fa-arrow-right"></i> Book Now</button></div></div></div>
-                <div className={`special-slide ${currentSpecialSlide === 5 ? 'active' : ''}`}><div className="special-card"><img src="/assets/specials/Mother's Day_page-0002.jpg" alt="Mother's Day Giveaway" className="special-poster" /><div className="special-overlay"><h3>Mother's Day Giveaway</h3><p>With any beauty service</p><div className="special-valid">Limited time offer</div><button className="btn-special" onClick={openBooking}><i className="fas fa-arrow-right"></i> Book Now</button></div></div></div>
+                <div className={`special-slide ${currentSpecialSlide === 0 ? 'active' : ''}`}><div className="special-card featured"><img src="./assets/specials/OpeningSpecials.jpeg" alt="FREE Kiddies Party Pack" className="special-poster" /><div className="special-badge"><i className="fas fa-fire"></i> HOT DEAL</div><div className="special-overlay"><h3>FREE Kiddies Party Pack</h3><p>With any kiddies haircut or styling service</p><div className="special-valid">Valid until: 30 April 2026</div><button className="btn-special" onClick={openBooking}><i className="fas fa-arrow-right"></i> Claim Now</button></div></div></div>
+                <div className={`special-slide ${currentSpecialSlide === 1 ? 'active' : ''}`}><div className="special-card"><img src="./assets/specials/MidweekGlow.jpeg" alt="Midweek Glow" className="special-poster" /><div className="special-overlay"><h3>Midweek Glow</h3><p>With any beauty service</p><div className="special-valid">Limited time offer</div><button className="btn-special" onClick={openBooking}><i className="fas fa-arrow-right"></i> Book Now</button></div></div></div>
+                <div className={`special-slide ${currentSpecialSlide === 2 ? 'active' : ''}`}><div className="special-card"><img src="./assets/specials/WaxyWednesdays.jpeg" alt="Waxy Wednesdays" className="special-poster" /><div className="special-overlay"><h3>Waxy Wednesdays</h3><p>With any beauty service</p><div className="special-valid">Limited time offer</div><button className="btn-special" onClick={openBooking}><i className="fas fa-arrow-right"></i> Book Now</button></div></div></div>
+                <div className={`special-slide ${currentSpecialSlide === 3 ? 'active' : ''}`}><div className="special-card"><img src="./assets/specials/DadxMiniSpecial.jpeg" alt="Daddy & Mini" className="special-poster" /><div className="special-overlay"><h3>Daddy & Mini Special</h3><p>With any beauty service</p><div className="special-valid">Limited time offer</div><button className="btn-special" onClick={openBooking}><i className="fas fa-arrow-right"></i> Book Now</button></div></div></div>
+                <div className={`special-slide ${currentSpecialSlide === 4 ? 'active' : ''}`}><div className="special-card"><img src="./assets/specials/Mother's Day_page-0001.jpg" alt="Mother's Day Sale" className="special-poster" /><div className="special-overlay"><h3>Mother's Day Sale</h3><p>With any beauty service</p><div className="special-valid">Limited time offer</div><button className="btn-special" onClick={openBooking}><i className="fas fa-arrow-right"></i> Book Now</button></div></div></div>
+                <div className={`special-slide ${currentSpecialSlide === 5 ? 'active' : ''}`}><div className="special-card"><img src="./assets/specials/Mother's Day_page-0002.jpg" alt="Mother's Day Giveaway" className="special-poster" /><div className="special-overlay"><h3>Mother's Day Giveaway</h3><p>With any beauty service</p><div className="special-valid">Limited time offer</div><button className="btn-special" onClick={openBooking}><i className="fas fa-arrow-right"></i> Book Now</button></div></div></div>
                 <button className="specials-nav prev" onClick={prevSpecialSlide}><i className="fas fa-chevron-left"></i></button>
                 <button className="specials-nav next" onClick={nextSpecialSlide}><i className="fas fa-chevron-right"></i></button>
               </div>
@@ -346,7 +346,7 @@ const Home = () => {
         <section id="about" className="section-wrap">
           <div className="container">
             <div className="about-grid">
-              <div className="about-img fade"><img src="/assets/images/compressed_FullTeam.jpeg" alt="Tassel Team" loading="lazy" /><p className="img-caption">calm · professional · family</p></div>
+              <div className="about-img fade"><img src="./assets/images/compressed_FullTeam.jpeg" alt="Tassel Team" loading="lazy" /><p className="img-caption">calm · professional · family</p></div>
               <div>
                 <p className="label fade">Our story</p>
                 <h2 className="fade">Built for families.<br />Designed for beauty.</h2>
@@ -387,10 +387,10 @@ const Home = () => {
             <h2 className="fade">Brands We Love & Trust</h2>
             <p className="brands-intro fade">At Tassel, we partner with premium brands that align with our commitment to quality, safety, and exceptional results for your family.</p>
             <div className="brands-grid">
-              <div className="brand-card fade"><div className="brand-logo-wrapper"><img src="/assets/brands/Tassel.svg" alt="Tassel" className="brand-logo" /></div><h3>Tassel Studio</h3><p>Our signature brand — excellence in every service</p></div>
-              <div className="brand-card fade"><div className="brand-logo-wrapper"><img src="/assets/brands/Esse.svg" alt="Esse Skincare" className="brand-logo" /></div><h3>Esse Skincare</h3><p>Probiotic skincare for healthy, radiant skin</p></div>
-              <div className="brand-card fade"><div className="brand-logo-wrapper"><img src="/assets/brands/ResaK.svg" alt="Resa-K" className="brand-logo" /></div><h3>Resa-K</h3><p>Advanced keratin & hair restoration treatments</p></div>
-              <div className="brand-card fade"><div className="brand-logo-wrapper"><img src="/assets/brands/Popsicle.svg" alt="Popsicle Nails" className="brand-logo" /></div><h3>Popsicle Professional Nails</h3><p>Premium nail care & cuticle nourishment</p></div>
+              <div className="brand-card fade"><div className="brand-logo-wrapper"><img src="./assets/brands/Tassel.svg" alt="Tassel" className="brand-logo" /></div><h3>Tassel Studio</h3><p>Our signature brand — excellence in every service</p></div>
+              <div className="brand-card fade"><div className="brand-logo-wrapper"><img src="./assets/brands/Esse.svg" alt="Esse Skincare" className="brand-logo" /></div><h3>Esse Skincare</h3><p>Probiotic skincare for healthy, radiant skin</p></div>
+              <div className="brand-card fade"><div className="brand-logo-wrapper"><img src="./assets/brands/ResaK.svg" alt="Resa-K" className="brand-logo" /></div><h3>Resa-K</h3><p>Advanced keratin & hair restoration treatments</p></div>
+              <div className="brand-card fade"><div className="brand-logo-wrapper"><img src="./assets/brands/Popsicle.svg" alt="Popsicle Nails" className="brand-logo" /></div><h3>Popsicle Professional Nails</h3><p>Premium nail care & cuticle nourishment</p></div>
             </div>
             <div className="brands-note fade"><p>+ Many more professional products selected with care for your family's wellness</p></div>
           </div>
