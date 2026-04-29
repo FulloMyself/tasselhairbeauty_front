@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import { UserProvider } from './context/UserContext';
@@ -31,25 +31,38 @@ import './styles/responsive.css';
 import './styles/admin.css';
 import './styles/dashboard.css';
 
+// Redirect handler component (must be inside Router)
+const RedirectHandler = () => {
+  const navigate = React.useRef(null);
+  
+  // We need to use a child component inside Routes
+  return null;
+};
+
+function AppContent() {
+  // Handle GitHub Pages SPA redirect from 404.html
+  React.useEffect(() => {
+    const redirect = sessionStorage.getItem('redirect');
+    if (redirect) {
+      sessionStorage.removeItem('redirect');
+      // Use window.location to redirect since we don't have navigate here
+      window.history.replaceState(null, '', window.location.origin + '/tasselhairbeauty_front' + redirect);
+      window.location.reload();
+    }
+  }, []);
+
+  return null; // This component just handles the redirect side effect
+}
+
 function App() {
-  // Future flags for React Router v7 compatibility
   const routerFuture = {
     v7_startTransition: true,
     v7_relativeSplatPath: true
   };
-  const navigate = useNavigate();
-
-  // Handle GitHub Pages SPA redirect from 404.html
-  useEffect(() => {
-    const redirect = sessionStorage.getItem('redirect');
-    if (redirect) {
-      sessionStorage.removeItem('redirect');
-      navigate(redirect);
-    }
-  }, [navigate]);
 
   return (
     <Router future={routerFuture} basename="/tasselhairbeauty_front">
+      <AppContent />
       <AuthProvider>
         <CartProvider>
           <UserProvider>
@@ -60,7 +73,7 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/unauthorized" element={<Unauthorized />} />
 
-              {/* Protected Routes - Dashboard entry point that selects the right role dashboard */}
+              {/* Protected Routes */}
               <Route path="/dashboard" element={
                 <ProtectedRoute>
                   <RoleBasedDashboard />
@@ -73,55 +86,26 @@ function App() {
                   <CustomerDashboard />
                 </ProtectedRoute>
               } />
-
-              <Route path="/dashboard/book" element={
-                <ProtectedRoute requiredRole="customer">
-                  <ServicePage />
-                </ProtectedRoute>
-              } />
-
-              <Route path="/dashboard/shop" element={
-                <ProtectedRoute requiredRole="customer">
-                  <ShopPage />
-                </ProtectedRoute>
-              } />
-
-              <Route path="/dashboard/profile" element={
-                <ProtectedRoute requiredRole="customer">
-                  <CustomerDashboard />
-                </ProtectedRoute>
-              } />
-
-              <Route path="/dashboard/history" element={
-                <ProtectedRoute requiredRole="customer">
-                  <CustomerDashboard />
-                </ProtectedRoute>
-              } />
-
               <Route path="/bookings" element={
                 <ProtectedRoute requiredRole="customer">
                   <CustomerDashboard />
                 </ProtectedRoute>
               } />
-
               <Route path="/orders" element={
                 <ProtectedRoute requiredRole="customer">
                   <CustomerDashboard />
                 </ProtectedRoute>
               } />
-
               <Route path="/shop" element={
                 <ProtectedRoute requiredRole="customer">
                   <ShopPage />
                 </ProtectedRoute>
               } />
-
               <Route path="/services" element={
                 <ProtectedRoute requiredRole="customer">
                   <ServicePage />
                 </ProtectedRoute>
               } />
-
               <Route path="/booking" element={
                 <ProtectedRoute requiredRole="customer">
                   <BookingPage />
@@ -134,19 +118,16 @@ function App() {
                   <StaffDashboard />
                 </ProtectedRoute>
               } />
-
               <Route path="/staff/schedule" element={
                 <ProtectedRoute requiredRole="staff">
                   <StaffDashboard />
                 </ProtectedRoute>
               } />
-
               <Route path="/staff/performance" element={
                 <ProtectedRoute requiredRole="staff">
                   <StaffDashboard />
                 </ProtectedRoute>
               } />
-
               <Route path="/staff/leave" element={
                 <ProtectedRoute requiredRole="staff">
                   <StaffDashboard />
@@ -159,37 +140,31 @@ function App() {
                   <AdminDashboard />
                 </ProtectedRoute>
               } />
-
               <Route path="/admin/users" element={
                 <ProtectedRoute requiredRole="admin">
                   <AdminDashboard />
                 </ProtectedRoute>
               } />
-
               <Route path="/admin/services" element={
                 <ProtectedRoute requiredRole="admin">
                   <AdminDashboard />
                 </ProtectedRoute>
               } />
-
               <Route path="/admin/products" element={
                 <ProtectedRoute requiredRole="admin">
                   <AdminDashboard />
                 </ProtectedRoute>
               } />
-
               <Route path="/admin/bookings" element={
                 <ProtectedRoute requiredRole="admin">
                   <AdminDashboard />
                 </ProtectedRoute>
               } />
-
               <Route path="/admin/analytics" element={
                 <ProtectedRoute requiredRole="admin">
                   <AdminDashboard />
                 </ProtectedRoute>
               } />
-
               <Route path="/admin/payroll" element={
                 <ProtectedRoute requiredRole="admin">
                   <AdminDashboard />
