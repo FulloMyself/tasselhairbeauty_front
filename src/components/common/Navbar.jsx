@@ -74,7 +74,7 @@ const Navbar = ({ onBookNow }) => {
         <li><a href="/#reviews" onClick={(e) => handleAnchorClick(e, '#reviews')}>Reviews</a></li>
         <li><a href="/#brands" onClick={(e) => handleAnchorClick(e, '#brands')}>Brands</a></li>
         <li><a href="/#location" onClick={(e) => handleAnchorClick(e, '#location')}>Find us</a></li>
-        <li><a href="/assets/pricelists/Tassel_Full_Services_PriceList.pdf" target="_blank" rel="noopener noreferrer" onClick={handleLinkClick}>Prices</a></li>
+        <li><a href="./assets/pricelists/Tassel_Full_Services_PriceList.pdf" target="_blank" rel="noopener noreferrer" onClick={handleLinkClick}>Prices</a></li>
         {user ? (
           <>
             <li><Link to="/dashboard" onClick={handleLinkClick}>Dashboard</Link></li>
