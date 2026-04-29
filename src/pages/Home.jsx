@@ -36,7 +36,7 @@ const Home = () => {
   const galleryItems = [
     { type: 'photo', category: 'kids', src: '{`${basePath}/assets/images/compressed_CuteBabyBraids.jpeg}', caption: 'Kiddies Braiding' },
     { type: 'photo', category: 'studio', src: '{`${basePath}/assets/images/compressed_KiddiesStation.jpeg}', caption: 'Kiddies Station' },
-    { type: 'video', category: 'barber', src: '/assets/videos/MensCutAndWash.mp4', poster: '/assets/images/MensHairCut.png', caption: 'Men\'s Haircut Session' },
+    { type: 'video', category: 'barber', src: '{`${basePath}/assets/videos/MensCutAndWash.mp4}', poster: '/assets/images/MensHairCut.png', caption: 'Men\'s Haircut Session' },
     { type: 'photo', category: 'hair', src: '/assets/images/compressed_AdultHair.jpeg', caption: 'Professional Styling' },
     { type: 'photo', category: 'kids', src: '/assets/images/KiddiesHairstyleSession.jpeg', caption: 'Kiddies Hairstyle Session' },
     { type: 'video', category: 'welcome', src: '/assets/videos/Welcome.mp4', poster: '/assets/images/compressed_Receptionist.jpeg', caption: 'Welcome To Tassel' },
