@@ -32,13 +32,27 @@
     font-size: 0.5rem;
   }
   
+  /* REPLACE with this: */
   .nav-links {
-    display: none;
+    display: flex;  /* Keep flex for mobile menu */
+  }
+  
+  .nav-links:not(.show) {
+    display: none;  /* Hide only when not shown */
   }
   
   .nav-btn {
     padding: 8px 16px;
     font-size: 0.6rem;
+  }
+  
+  /* Show hamburger menu */
+  .hamburger {
+    display: flex;
+  }
+  
+  .desktop-book-btn {
+    display: none;
   }
   
   .float-book {
