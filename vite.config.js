@@ -4,6 +4,10 @@ import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
+  // IMPORTANT: Set this to your repository name for GitHub Pages
+  // If your repo is named 'tassel-hair-beauty', use '/tassel-hair-beauty/'
+  // If deploying to custom domain or username.github.io, use '/'
+  base: '/',
   server: {
     port: 5174,
     proxy: {
