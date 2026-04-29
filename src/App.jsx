@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import { UserProvider } from './context/UserContext';
@@ -37,6 +37,16 @@ function App() {
     v7_startTransition: true,
     v7_relativeSplatPath: true
   };
+  const navigate = useNavigate();
+
+  // Handle GitHub Pages SPA redirect from 404.html
+  useEffect(() => {
+    const redirect = sessionStorage.getItem('redirect');
+    if (redirect) {
+      sessionStorage.removeItem('redirect');
+      navigate(redirect);
+    }
+  }, [navigate]);
 
   return (
     <Router future={routerFuture} basename="/tasselhairbeauty_front">
