@@ -17,10 +17,12 @@ const Home = () => {
   const [lightboxContent, setLightboxContent] = useState(null);
   const [showTeamModal, setShowTeamModal] = useState(false);
   const [selectedTeamMember, setSelectedTeamMember] = useState(null);
+  const basePath = '/tasselhairbeauty_front';
+
 
   // Team members data
   const teamMembers = [
-    { id: 1, name: "Sandra", role: "Staff - Nails Department", specialization: "Nail Tech", image: "/assets/images/team/sandra.jpeg", bio: "Sandra is a skilled nail technician with a passion for creating beautiful and unique nail designs.", quote: "Beautiful nails are the perfect finishing touch to any look.", instagram: "https://www.instagram.com/tasselhairandbeautystudio_/", whatsapp: "https://wa.me/27729605153" },
+    { id: 1, name: "Sandra", role: "Staff - Nails Department", specialization: "Nail Tech", image: "./assets/images/team/sandra.jpeg", bio: "Sandra is a skilled nail technician with a passion for creating beautiful and unique nail designs.", quote: "Beautiful nails are the perfect finishing touch to any look.", instagram: "https://www.instagram.com/tasselhairandbeautystudio_/", whatsapp: "https://wa.me/27729605153" },
     { id: 2, name: "Nomonde", role: "Staff - Beauty and Skincare Department", specialization: "Beauty Therapist", image: "/assets/images/team/nomonde.jpeg", bio: "Nomonde brings precision and artistry to every treatment.", quote: "Healthy skin is beautiful skin.", instagram: "https://www.instagram.com/tasselhairandbeautystudio_/", whatsapp: "https://wa.me/27729605153" },
     { id: 3, name: "Natasha", role: "Staff - Hair and Kiddies Department", specialization: "Kiddies Hair Stylist", image: "/assets/images/team/natasha.jpeg", bio: "Natasha's creative styling and gentle approach have made her a favorite among young clients.", quote: "Every child deserves to feel special.", instagram: "https://www.instagram.com/tasselhairandbeautystudio_/", whatsapp: "https://wa.me/27729605153" },
     { id: 4, name: "Cynthia", role: "Staff - Hair and Kiddies Department", specialization: "Kiddies Hair Stylist", image: "/assets/images/team/cynthia.jpeg", bio: "Cynthia specializes in creating magical hairstyles for children.", quote: "Beautiful hair expresses personality.", instagram: "https://www.instagram.com/tasselhairandbeautystudio_/", whatsapp: "https://wa.me/27729605153" },
