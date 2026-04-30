@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../utils/api';
+import UnifiedCalendar from '../../components/common/UnifiedCalendar';
 import DashboardSidebar from '../../components/dashboard/DashboardSidebar';
 import ProfileEditor from '../../components/dashboard/ProfileEditor';
 import '../../styles/dashboard.css';
@@ -357,6 +358,7 @@ const StaffDashboard = () => {
 
     const menuItems = [
         { id: 'overview', label: 'Overview', icon: 'fas fa-home' },
+        { id: 'calendar', label: 'Calendar', icon: 'fas fa-calendar-alt' },
         { id: 'schedule', label: 'Schedule', icon: 'fas fa-calendar' },
         { id: 'performance', label: 'Performance', icon: 'fas fa-chart-line' },
         { id: 'leave', label: 'Leave', icon: 'fas fa-umbrella-beach' },
@@ -414,6 +416,7 @@ const StaffDashboard = () => {
 
             <div className="dashboard-content">
                 {activeTab === 'overview' && <StaffOverview user={user} stats={stats} todayBookings={todayBookings} />}
+                {activeTab === 'calendar' && <UnifiedCalendar userRole="staff" userId={user?._id} />}
                 {activeTab === 'schedule' && <ScheduleView schedule={schedule} loading={loading} />}
                 {activeTab === 'performance' && <PerformanceView performance={performance} loading={loading} />}
                 {activeTab === 'leave' && <LeaveView leaveRequests={leaveRequests} loading={loading} onUpdate={fetchDashboardData} />}

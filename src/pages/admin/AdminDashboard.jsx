@@ -20,7 +20,7 @@ import LeaveManagement from '../../components/admin/LeaveManagement';
 import PayrollManagement from '../../components/admin/PayrollManagement';
 import AnalyticsDashboard from '../../components/admin/AnalyticsDashboard';
 import SpecialsManagement from '../../components/admin/SpecialsManagement';
-
+import UnifiedCalendar from '../../components/common/UnifiedCalendar';
 
 
 // Admin Overview Component
@@ -451,6 +451,7 @@ const AdminDashboard = () => {
         { id: 'payroll', label: 'Payroll', icon: 'fas fa-money-bill' },
         { id: 'analytics', label: 'Analytics', icon: 'fas fa-chart-bar' },
         { id: 'profile', label: 'Profile', icon: 'fas fa-user-cog' },
+        { id: 'calendar', label: 'Calendar', icon: 'fas fa-calendar-alt' },
     ];
 
     return (
@@ -489,6 +490,7 @@ const AdminDashboard = () => {
                 )}
                 {activeTab === 'services' && <ServicesManagement />}
                 {activeTab === 'products' && <ProductsManagement />}
+                {activeTab === 'calendar' && <UnifiedCalendar userRole="admin" userId={user?._id} />}
                 {activeTab === 'specials' && <SpecialsManagement />}
                 {activeTab === 'bookings' && <BookingsManagement />}
                 {activeTab === 'orders' && <OrdersManagement />}

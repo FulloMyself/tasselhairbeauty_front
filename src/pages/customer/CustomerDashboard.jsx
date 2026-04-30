@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../utils/api';
+import UnifiedCalendar from '../../components/common/UnifiedCalendar';
 import DashboardSidebar from '../../components/dashboard/DashboardSidebar';
 import ProfileEditor from '../../components/dashboard/ProfileEditor';
-import CustomerHistory from '../../components/customer/CustomerHistory'; // ADD THIS IMPORT
+import CustomerHistory from '../../components/customer/CustomerHistory';
 import '../../styles/dashboard.css';
 
 // Customer Overview Component - Fixed with proper tab switching
@@ -331,6 +332,7 @@ const CustomerDashboard = () => {
   const menuItems = [
     { id: 'overview', label: 'Overview', icon: 'fas fa-home' },
     { id: 'bookings', label: 'My Bookings', icon: 'fas fa-calendar' },
+    { id: 'calendar', label: 'Calendar', icon: 'fas fa-calendar-alt' },
     { id: 'orders', label: 'My Orders', icon: 'fas fa-shopping-bag' },
     { id: 'history', label: 'History', icon: 'fas fa-history' },
     { id: 'profile', label: 'Profile', icon: 'fas fa-user-cog' },
@@ -375,6 +377,7 @@ const CustomerDashboard = () => {
             onTabChange={setActiveTab}  // Pass setActiveTab to overview
           />
         )}
+        {activeTab === 'calendar' && <UnifiedCalendar userRole="customer" userId={user?._id} />}
         {activeTab === 'bookings' && <BookingsList bookings={bookings} loading={loading} />}
         {activeTab === 'orders' && <OrdersList orders={orders} loading={loading} />}
         {activeTab === 'history' && <CustomerHistory />}
