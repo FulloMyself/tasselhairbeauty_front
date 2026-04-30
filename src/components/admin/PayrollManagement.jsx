@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../utils/api';
 import ProcessPayrollModal from './ProcessPayrollModal';
+import { downloadPayslip, downloadPayrollReport } from '../../utils/payslipGenerator';
 
 const PayrollManagement = () => {
   const [payrolls, setPayrolls] = useState([]);
@@ -55,6 +56,16 @@ const PayrollManagement = () => {
     return colors[status] || { bg: '#e5e7eb', color: '#374151' };
   };
 
+  const handleDownloadPayslip = (payroll) => {
+    const staffName = payroll.staffName || 'Staff Member';
+    downloadPayslip(payroll, staffName);
+  };
+
+  const handleDownloadReport = () => {
+    const period = filter === 'all' ? 'all' : selectedPayroll?.payrollPeriod || 'all';
+    downloadPayrollReport(payrolls, period);
+  };
+
   const stats = {
     total: payrolls.length,
     totalPaid: payrolls.filter(p => p.status === 'paid').reduce((sum, p) => sum + (p.totalEarnings || 0), 0),
@@ -75,9 +86,9 @@ const PayrollManagement = () => {
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
           <div className="admin-search">
             <i className="fas fa-search search-icon"></i>
-            <input 
-              type="text" 
-              placeholder="Search by staff or period..." 
+            <input
+              type="text"
+              placeholder="Search by staff or period..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -87,6 +98,9 @@ const PayrollManagement = () => {
               </button>
             )}
           </div>
+          <button className="btn btn-outline" onClick={handleDownloadReport} title="Download Payroll Report">
+            <i className="fas fa-download"></i> Report
+          </button>
           <button className="btn btn-primary" onClick={() => setShowPayrollModal(true)}>
             <i className="fas fa-plus"></i> Process Payroll
           </button>
@@ -115,9 +129,9 @@ const PayrollManagement = () => {
 
       <div className="filter-tabs">
         {statuses.map(status => (
-          <button 
+          <button
             key={status}
-            className={`filter-tab ${filter === status ? 'active' : ''}`} 
+            className={`filter-tab ${filter === status ? 'active' : ''}`}
             onClick={() => setFilter(status)}
           >
             {status.charAt(0).toUpperCase() + status.slice(1)}
@@ -161,28 +175,25 @@ const PayrollManagement = () => {
                 <td>
                   <div className="action-buttons" style={{ flexDirection: 'column', gap: '4px' }}>
                     {payroll.status === 'draft' && (
-                      <button 
-                        className="btn btn-sm btn-primary" 
-                        onClick={() => handleStatusUpdate(payroll._id, 'approved')}
-                        style={{ fontSize: '11px', padding: '4px 8px' }}
-                      >
+                      <button className="btn btn-sm btn-primary" onClick={() => handleStatusUpdate(payroll._id, 'approved')}
+                        style={{ fontSize: '11px', padding: '4px 8px' }}>
                         <i className="fas fa-check"></i> Approve
                       </button>
                     )}
                     {payroll.status === 'approved' && (
-                      <button 
-                        className="btn btn-sm btn-primary" 
-                        onClick={() => handleStatusUpdate(payroll._id, 'paid')}
-                        style={{ fontSize: '11px', padding: '4px 8px', background: 'var(--success)', borderColor: 'var(--success)' }}
-                      >
+                      <button className="btn btn-sm btn-primary" onClick={() => handleStatusUpdate(payroll._id, 'paid')}
+                        style={{ fontSize: '11px', padding: '4px 8px', background: 'var(--success)', borderColor: 'var(--success)' }}>
                         <i className="fas fa-check-double"></i> Mark Paid
                       </button>
                     )}
-                    <button 
-                      className="btn btn-sm btn-outline" 
-                      onClick={() => setSelectedPayroll(payroll)}
-                      style={{ fontSize: '11px', padding: '4px 8px' }}
-                    >
+                    {payroll.status === 'paid' && (
+                      <button className="btn btn-sm btn-outline" onClick={() => handleDownloadPayslip(payroll)}
+                        style={{ fontSize: '11px', padding: '4px 8px', color: 'var(--gold)', borderColor: 'var(--gold)' }}>
+                        <i className="fas fa-download"></i> Payslip
+                      </button>
+                    )}
+                    <button className="btn btn-sm btn-outline" onClick={() => setSelectedPayroll(payroll)}
+                      style={{ fontSize: '11px', padding: '4px 8px' }}>
                       <i className="fas fa-eye"></i> View
                     </button>
                   </div>
@@ -240,7 +251,7 @@ const PayrollManagement = () => {
                   <p>{selectedPayroll.paymentDate ? new Date(selectedPayroll.paymentDate).toLocaleDateString() : 'Not paid'}</p>
                 </div>
               </div>
-              
+
               <div style={{ marginTop: '1.5rem', background: 'var(--soft)', padding: '1.5rem', borderRadius: '12px' }}>
                 <h4 style={{ marginBottom: '1rem', color: 'var(--gold)' }}>Earnings Breakdown</h4>
                 <div className="payroll-row">
@@ -264,7 +275,7 @@ const PayrollManagement = () => {
                   <span>R{(selectedPayroll.totalEarnings || 0).toFixed(2)}</span>
                 </div>
               </div>
-              
+
               {selectedPayroll.notes && (
                 <div className="detail-item full-width" style={{ marginTop: '1rem' }}>
                   <label>Notes</label>
@@ -278,9 +289,9 @@ const PayrollManagement = () => {
 
       {/* Process Payroll Modal */}
       {showPayrollModal && (
-        <ProcessPayrollModal 
-          onClose={() => setShowPayrollModal(false)} 
-          onSuccess={() => { setShowPayrollModal(false); fetchPayrolls(); }} 
+        <ProcessPayrollModal
+          onClose={() => setShowPayrollModal(false)}
+          onSuccess={() => { setShowPayrollModal(false); fetchPayrolls(); }}
         />
       )}
     </div>

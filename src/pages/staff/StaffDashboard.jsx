@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../utils/api';
 import UnifiedCalendar from '../../components/common/UnifiedCalendar';
+import { downloadPayslip } from '../../utils/payslipGenerator';
 import DashboardSidebar from '../../components/dashboard/DashboardSidebar';
 import ProfileEditor from '../../components/dashboard/ProfileEditor';
 import '../../styles/dashboard.css';
@@ -293,20 +294,20 @@ const LeaveView = ({ leaveRequests, loading, onUpdate }) => {
     );
 };
 
-const PayrollView = ({ payroll, loading }) => {
+const PayrollView = ({ payroll, loading, user }) => {
     return (
         <div className="payroll-section">
             <h2>Payroll History</h2>
 
-            {payroll?.length === 0 ? (
+            {(!payroll || payroll.length === 0) ? (
                 <div className="empty-state">
                     <i className="fas fa-money-bill"></i>
                     <p>No payroll records yet</p>
                 </div>
             ) : (
                 <div className="payroll-list">
-                    {payroll?.map(record => (
-                        <div key={record.id} className="payroll-card">
+                    {payroll.map(record => (
+                        <div key={record.id || record._id} className="payroll-card">
                             <div className="payroll-header">
                                 <h3>{record.payrollPeriod}</h3>
                                 <span className={`payroll-status status-${record.status}`}>{record.status}</span>
@@ -314,26 +315,35 @@ const PayrollView = ({ payroll, loading }) => {
                             <div className="payroll-body">
                                 <div className="payroll-row">
                                     <span>Base Salary:</span>
-                                    <span>R{record.baseSalary}</span>
+                                    <span>R{(record.baseSalary || 0).toFixed(2)}</span>
                                 </div>
                                 <div className="payroll-row">
                                     <span>Bonuses:</span>
-                                    <span className="text-success">+R{record.bonuses}</span>
+                                    <span className="text-success">+R{(record.bonuses || 0).toFixed(2)}</span>
                                 </div>
                                 <div className="payroll-row">
                                     <span>Deductions:</span>
-                                    <span className="text-error">-R{record.deductions}</span>
+                                    <span className="text-error">-R{((record.deductions || 0) + (record.leaveDeductions || 0)).toFixed(2)}</span>
                                 </div>
                                 <div className="payroll-row total">
                                     <span>Total Earnings:</span>
-                                    <span>R{record.totalEarnings}</span>
+                                    <span>R{(record.totalEarnings || 0).toFixed(2)}</span>
                                 </div>
                             </div>
-                            {record.paymentDate && (
-                                <div className="payroll-footer">
+                            <div className="payroll-footer" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                {record.paymentDate && (
                                     <p>Paid on {new Date(record.paymentDate).toLocaleDateString()}</p>
-                                </div>
-                            )}
+                                )}
+                                {record.status === 'paid' && (
+                                    <button
+                                        className="btn btn-sm btn-primary"
+                                        onClick={() => downloadPayslip(record, `${user?.firstName} ${user?.lastName}`)}
+                                        style={{ fontSize: '12px', padding: '6px 14px' }}
+                                    >
+                                        <i className="fas fa-download"></i> Download Payslip
+                                    </button>
+                                )}
+                            </div>
                         </div>
                     ))}
                 </div>
@@ -420,7 +430,7 @@ const StaffDashboard = () => {
                 {activeTab === 'schedule' && <ScheduleView schedule={schedule} loading={loading} />}
                 {activeTab === 'performance' && <PerformanceView performance={performance} loading={loading} />}
                 {activeTab === 'leave' && <LeaveView leaveRequests={leaveRequests} loading={loading} onUpdate={fetchDashboardData} />}
-                {activeTab === 'payroll' && <PayrollView payroll={payroll} loading={loading} />}
+                {activeTab === 'payroll' && <PayrollView payroll={payroll} loading={loading} user={user} />}
                 {activeTab === 'profile' && <ProfileEditor user={user} onUpdate={fetchDashboardData} />}
             </div>
         </div>

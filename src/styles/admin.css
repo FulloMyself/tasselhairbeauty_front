@@ -1997,3 +1997,69 @@
     flex: 1;
     text-align: center;
 }
+
+/* ========== PRINT STYLES ========== */
+@media print {
+
+    .dashboard-sidebar,
+    .admin-quick-actions,
+    .action-buttons,
+    .filter-tabs,
+    .export-section,
+    .calendar-actions,
+    .calendar-view-toggle,
+    .calendar-nav-btn,
+    .calendar-today-btn,
+    .btn,
+    nav,
+    .float-book {
+        display: none !important;
+    }
+
+    body {
+        background: white !important;
+        color: black !important;
+    }
+
+    .dashboard-content {
+        padding: 0 !important;
+    }
+
+    .chart-card,
+    .kpi-card,
+    .analytics-card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        border: 1px solid #ddd !important;
+        box-shadow: none !important;
+    }
+
+    h2,
+    h3 {
+        color: black !important;
+    }
+}
+
+/* PDF Export Class */
+.printing-pdf .dashboard-sidebar,
+.printing-pdf .admin-quick-actions,
+.printing-pdf .action-buttons,
+.printing-pdf .filter-tabs,
+.printing-pdf .export-section,
+.printing-pdf .calendar-actions,
+.printing-pdf .calendar-view-toggle,
+.printing-pdf .calendar-nav-btn,
+.printing-pdf .calendar-today-btn,
+.printing-pdf .btn,
+.printing-pdf nav,
+.printing-pdf .float-book {
+    display: none !important;
+}
+
+.printing-pdf body {
+    background: white !important;
+}
+
+.printing-pdf .dashboard-content {
+    padding: 20px !important;
+}
