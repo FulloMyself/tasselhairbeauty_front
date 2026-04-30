@@ -66,7 +66,7 @@ function App() {
   };
 
   return (
-    <Router future={routerFuture} basename="/tasselhairbeauty_front">
+    <Router future={routerFuture}>
       <AppContent />
       <AuthProvider>
         <CartProvider>
