@@ -4,17 +4,24 @@
   <meta charset="utf-8">
   <title>Tassel Hair & Beauty Studio</title>
   <script type="text/javascript">
-    var path = window.location.pathname;
-    var base = '/tasselhairbeauty_front';
-    
-    if (path.startsWith(base)) {
-      var route = path.replace(base, '') || '/';
-      sessionStorage.setItem('redirect', route);
+    // Check if we're already being redirected (prevent loop)
+    if (!sessionStorage.getItem('redirecting')) {
+      sessionStorage.setItem('redirecting', 'true');
+      
+      var path = window.location.pathname;
+      var base = '/tasselhairbeauty_front';
+      
+      if (path.startsWith(base)) {
+        var route = path.replace(base, '') || '/';
+        sessionStorage.setItem('redirect', route);
+      }
+      
+      // Redirect to the main app
+      window.location.replace(base + '/');
     }
-    window.location.replace(base + '/');
   </script>
 </head>
 <body>
-  <p>Redirecting...</p>
+  <p>Loading Tassel Hair & Beauty Studio...</p>
 </body>
 </html>

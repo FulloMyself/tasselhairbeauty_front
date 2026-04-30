@@ -34,24 +34,29 @@ import './styles/dashboard.css';
 // Redirect handler component (must be inside Router)
 const RedirectHandler = () => {
   const navigate = React.useRef(null);
-  
+
   // We need to use a child component inside Routes
   return null;
 };
 
 function AppContent() {
-  // Handle GitHub Pages SPA redirect from 404.html
-  React.useEffect(() => {
+  useEffect(() => {
+    // Clear the redirecting flag when the app successfully loads
+    sessionStorage.removeItem('redirecting');
+
+    // Handle the stored redirect
     const redirect = sessionStorage.getItem('redirect');
     if (redirect) {
       sessionStorage.removeItem('redirect');
-      // Use window.location to redirect since we don't have navigate here
-      window.history.replaceState(null, '', window.location.origin + '/tasselhairbeauty_front' + redirect);
-      window.location.reload();
+      // Use history API to navigate without full reload
+      const newPath = '/tasselhairbeauty_front' + redirect;
+      window.history.pushState(null, '', newPath);
+      // Dispatch a popstate event so React Router picks it up
+      window.dispatchEvent(new PopStateEvent('popstate'));
     }
   }, []);
 
-  return null; // This component just handles the redirect side effect
+  return null;
 }
 
 function App() {

@@ -19,7 +19,24 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
   <title>Tassel Hair & Beauty Studio</title>
-  <script type="module" crossorigin src="/tasselhairbeauty_front/assets/index-bb2ee1d6.js"></script>
+
+  <script>
+    // Handle GitHub Pages SPA routing
+    (function () {
+      var redirect = sessionStorage.getItem('redirect');
+      if (redirect) {
+        sessionStorage.removeItem('redirect');
+        var base = '/tasselhairbeauty_front';
+        var newPath = base + redirect;
+        if (window.location.pathname !== newPath) {
+          window.history.replaceState(null, '', newPath);
+        }
+      }
+      sessionStorage.removeItem('redirecting');
+    })();
+  </script>
+  
+  <script type="module" crossorigin src="/tasselhairbeauty_front/assets/index-a5dbcbee.js"></script>
   <link rel="stylesheet" href="/tasselhairbeauty_front/assets/index-720c1413.css">
 </head>
 
