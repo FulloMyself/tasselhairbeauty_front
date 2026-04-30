@@ -6,16 +6,26 @@ const UnifiedCalendar = ({ userRole, userId, onDateClick }) => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState(null);
-  const [viewType, setViewType] = useState('month'); // month or week
+  const [selectedDateEvents, setSelectedDateEvents] = useState([]);
+  const [viewType, setViewType] = useState('month');
+  const [weekStart, setWeekStart] = useState(null);
 
   useEffect(() => {
     fetchEvents();
-  }, [currentDate, userRole, userId]);
+  }, [currentDate, viewType, weekStart, userRole, userId]);
+
+  useEffect(() => {
+    if (viewType === 'week') {
+      const start = new Date(currentDate);
+      start.setDate(start.getDate() - start.getDay());
+      setWeekStart(start);
+    }
+  }, [viewType, currentDate]);
 
   const fetchEvents = async () => {
     setLoading(true);
     try {
-      let endpoint = '/api/calendar/events';
+      const endpoint = '/calendar/events';
       const params = new URLSearchParams({
         month: currentDate.getMonth() + 1,
         year: currentDate.getFullYear(),
@@ -32,6 +42,19 @@ const UnifiedCalendar = ({ userRole, userId, onDateClick }) => {
     }
   };
 
+  // Helper to get local date string without timezone issues
+  const getLocalDateString = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  // Get date string from year/month/day numbers
+  const getDateString = (year, month, day) => {
+    return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+  };
+
   const getDaysInMonth = (date) => {
     return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
   };
@@ -41,8 +64,32 @@ const UnifiedCalendar = ({ userRole, userId, onDateClick }) => {
   };
 
   const getEventsForDate = (day) => {
-    const dateStr = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const dateStr = getDateString(currentDate.getFullYear(), currentDate.getMonth() + 1, day);
     return events.filter(e => e.date === dateStr);
+  };
+
+  const handleDateClick = (day) => {
+    const dateStr = getDateString(currentDate.getFullYear(), currentDate.getMonth() + 1, day);
+    const dayEvents = getEventsForDate(day);
+    
+    setSelectedDate(dateStr);
+    setSelectedDateEvents(dayEvents);
+    
+    if (onDateClick && dayEvents.length > 0) {
+      onDateClick(day, dayEvents);
+    }
+  };
+
+  const handleWeekDayClick = (weekDay) => {
+    const dateStr = getLocalDateString(weekDay);
+    const dayEvents = events.filter(e => e.date === dateStr);
+    
+    setSelectedDate(dateStr);
+    setSelectedDateEvents(dayEvents);
+    
+    if (onDateClick && dayEvents.length > 0) {
+      onDateClick(weekDay.getDate(), dayEvents);
+    }
   };
 
   const getEventColor = (type) => {
@@ -60,9 +107,39 @@ const UnifiedCalendar = ({ userRole, userId, onDateClick }) => {
   const navigateMonth = (direction) => {
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + direction, 1));
     setSelectedDate(null);
+    setSelectedDateEvents([]);
+  };
+
+  const navigateWeek = (direction) => {
+    if (viewType === 'week' && weekStart) {
+      const newStart = new Date(weekStart);
+      newStart.setDate(newStart.getDate() + (direction * 7));
+      setWeekStart(newStart);
+      setSelectedDate(null);
+      setSelectedDateEvents([]);
+    }
+  };
+
+  const goToToday = () => {
+    setCurrentDate(new Date());
+    if (viewType === 'week') {
+      const start = new Date();
+      start.setDate(start.getDate() - start.getDay());
+      setWeekStart(start);
+    }
+    setSelectedDate(null);
+    setSelectedDateEvents([]);
+  };
+
+  const handleViewChange = (newView) => {
+    setViewType(newView);
+    setSelectedDate(null);
+    setSelectedDateEvents([]);
   };
 
   const today = new Date();
+  const todayStr = getLocalDateString(today);
+  
   const isToday = (day) => {
     return currentDate.getFullYear() === today.getFullYear() &&
            currentDate.getMonth() === today.getMonth() &&
@@ -71,37 +148,90 @@ const UnifiedCalendar = ({ userRole, userId, onDateClick }) => {
 
   const daysInMonth = getDaysInMonth(currentDate);
   const firstDay = getFirstDayOfMonth(currentDate);
-  const monthName = currentDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+  const monthName = currentDate.toLocaleString('default', { month: 'long' });
+  const year = currentDate.getFullYear();
   const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  const getWeekDays = () => {
+    if (!weekStart) return [];
+    const days = [];
+    for (let i = 0; i < 7; i++) {
+      const day = new Date(weekStart);
+      day.setDate(day.getDate() + i);
+      days.push(day);
+    }
+    return days;
+  };
+
+  const weekDays = getWeekDays();
+
+  const formatSelectedDate = () => {
+    if (!selectedDate) return '';
+    try {
+      const d = new Date(selectedDate + 'T00:00:00');
+      return d.toLocaleDateString('en-US', { 
+        weekday: 'long', 
+        month: 'long', 
+        day: 'numeric', 
+        year: 'numeric' 
+      });
+    } catch (e) {
+      return selectedDate;
+    }
+  };
 
   return (
     <div className="unified-calendar">
+      {/* Calendar Header */}
       <div className="calendar-header">
         <div className="calendar-navigation">
-          <button className="calendar-nav-btn" onClick={() => navigateMonth(-1)}>
+          <button 
+            className="calendar-nav-btn" 
+            onClick={() => viewType === 'month' ? navigateMonth(-1) : navigateWeek(-1)}
+          >
             <i className="fas fa-chevron-left"></i>
           </button>
-          <h2>{monthName}</h2>
-          <button className="calendar-nav-btn" onClick={() => navigateMonth(1)}>
+          
+          <div className="calendar-title">
+            <h2>
+              <span className="month-name">{monthName}</span>
+              <span className="year">{year}</span>
+            </h2>
+            {viewType === 'week' && weekStart && (
+              <span className="week-range">
+                {weekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - {' '}
+                {new Date(weekStart.getTime() + 6 * 86400000).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+              </span>
+            )}
+          </div>
+          
+          <button 
+            className="calendar-nav-btn" 
+            onClick={() => viewType === 'month' ? navigateMonth(1) : navigateWeek(1)}
+          >
             <i className="fas fa-chevron-right"></i>
           </button>
-          <button className="calendar-today-btn" onClick={() => setCurrentDate(new Date())}>
-            Today
-          </button>
         </div>
-        <div className="calendar-view-toggle">
-          <button 
-            className={`view-btn ${viewType === 'month' ? 'active' : ''}`}
-            onClick={() => setViewType('month')}
-          >
-            Month
+
+        <div className="calendar-actions">
+          <button className="calendar-today-btn" onClick={goToToday}>
+            <i className="fas fa-calendar-day"></i> Today
           </button>
-          <button 
-            className={`view-btn ${viewType === 'week' ? 'active' : ''}`}
-            onClick={() => setViewType('week')}
-          >
-            Week
-          </button>
+          
+          <div className="calendar-view-toggle">
+            <button 
+              className={`view-btn ${viewType === 'month' ? 'active' : ''}`}
+              onClick={() => handleViewChange('month')}
+            >
+              <i className="fas fa-calendar-alt"></i> Month
+            </button>
+            <button 
+              className={`view-btn ${viewType === 'week' ? 'active' : ''}`}
+              onClick={() => handleViewChange('week')}
+            >
+              <i className="fas fa-calendar-week"></i> Week
+            </button>
+          </div>
         </div>
       </div>
 
@@ -126,59 +256,109 @@ const UnifiedCalendar = ({ userRole, userId, onDateClick }) => {
           <i className="fas fa-spinner fa-spin"></i> Loading events...
         </div>
       ) : (
-        <div className="calendar-grid">
-          {/* Day Names */}
-          {dayNames.map(day => (
-            <div key={day} className="calendar-day-header">{day}</div>
-          ))}
+        <>
+          {/* Month View */}
+          {viewType === 'month' && (
+            <div className="calendar-grid">
+              {dayNames.map(day => (
+                <div key={day} className="calendar-day-header">{day}</div>
+              ))}
+              {Array.from({ length: firstDay }).map((_, i) => (
+                <div key={`empty-${i}`} className="calendar-day empty"></div>
+              ))}
+              {Array.from({ length: daysInMonth }).map((_, i) => {
+                const day = i + 1;
+                const dateStr = getDateString(currentDate.getFullYear(), currentDate.getMonth() + 1, day);
+                const dayEvents = events.filter(e => e.date === dateStr);
+                const isCurrentDay = todayStr === dateStr;
+                const isSelected = selectedDate === dateStr;
 
-          {/* Empty cells for days before first of month */}
-          {Array.from({ length: firstDay }).map((_, i) => (
-            <div key={`empty-${i}`} className="calendar-day empty"></div>
-          ))}
+                return (
+                  <div
+                    key={day}
+                    className={`calendar-day ${isCurrentDay ? 'today' : ''} ${isSelected ? 'selected' : ''} ${dayEvents.length > 0 ? 'has-events' : ''}`}
+                    onClick={() => handleDateClick(day)}
+                  >
+                    <span className="day-number">{day}</span>
+                    <div className="day-events">
+                      {dayEvents.slice(0, 3).map((event, idx) => {
+                        const color = getEventColor(event.type);
+                        return (
+                          <div
+                            key={idx}
+                            className="day-event"
+                            style={{ background: color.bg, color: color.text }}
+                            title={`${event.type}: ${event.title}`}
+                          >
+                            <span className="event-label">{event.title}</span>
+                          </div>
+                        );
+                      })}
+                      {dayEvents.length > 3 && (
+                        <div className="more-events">+{dayEvents.length - 3} more</div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
 
-          {/* Days of month */}
-          {Array.from({ length: daysInMonth }).map((_, i) => {
-            const day = i + 1;
-            const dayEvents = getEventsForDate(day);
-            const isSelected = selectedDate === day;
-            const isCurrentDay = isToday(day);
+          {/* Week View */}
+          {viewType === 'week' && (
+            <div className="week-view">
+              {dayNames.map((dayName, idx) => {
+                const weekDay = weekDays[idx];
+                if (!weekDay) return null;
+                
+                const dateStr = getLocalDateString(weekDay);
+                const dayEvents = events.filter(e => e.date === dateStr);
+                const isCurrentDay = todayStr === dateStr;
+                const isWeekSelected = selectedDate === dateStr;
 
-            return (
-              <div
-                key={day}
-                className={`calendar-day ${isCurrentDay ? 'today' : ''} ${isSelected ? 'selected' : ''} ${dayEvents.length > 0 ? 'has-events' : ''}`}
-                onClick={() => {
-                  setSelectedDate(day);
-                  if (onDateClick && dayEvents.length > 0) {
-                    onDateClick(day, dayEvents);
-                  }
-                }}
-              >
-                <span className="day-number">{day}</span>
-                <div className="day-events">
-                  {dayEvents.slice(0, 3).map((event, idx) => {
-                    const color = getEventColor(event.type);
-                    return (
-                      <div
-                        key={idx}
-                        className="day-event"
-                        style={{ background: color.bg, color: color.text }}
-                        title={`${event.type}: ${event.title}`}
-                      >
-                        <i className={`fas ${color.icon}`} style={{ fontSize: '8px', marginRight: '2px' }}></i>
-                        <span className="event-label">{event.title}</span>
-                      </div>
-                    );
-                  })}
-                  {dayEvents.length > 3 && (
-                    <div className="more-events">+{dayEvents.length - 3} more</div>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
+                return (
+                  <div key={dayName} className="week-day-column">
+                    <div 
+                      className={`week-day-header ${isCurrentDay ? 'today' : ''} ${isWeekSelected ? 'selected' : ''}`}
+                      onClick={() => handleWeekDayClick(weekDay)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <span className="week-day-name">{dayName}</span>
+                      <span className={`week-day-number ${isCurrentDay ? 'today-badge' : ''}`}>
+                        {weekDay.getDate()}
+                      </span>
+                    </div>
+                    <div className="week-day-events">
+                      {dayEvents.length === 0 ? (
+                        <div className="no-events-mini">No events</div>
+                      ) : (
+                        dayEvents.map((event, idx) => {
+                          const color = getEventColor(event.type);
+                          return (
+                            <div 
+                              key={idx} 
+                              className="week-event-card" 
+                              style={{ borderLeft: `3px solid ${color.bg}`, cursor: 'pointer' }}
+                              onClick={() => handleWeekDayClick(weekDay)}
+                            >
+                              <div className="week-event-header">
+                                <span className="week-event-type" style={{ background: color.bg, color: color.text }}>
+                                  {event.type}
+                                </span>
+                                {event.time && <span className="week-event-time">{event.time}</span>}
+                              </div>
+                              <p className="week-event-title">{event.title}</p>
+                            </div>
+                          );
+                        })
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </>
       )}
 
       {/* Selected Date Events Panel */}
@@ -186,17 +366,18 @@ const UnifiedCalendar = ({ userRole, userId, onDateClick }) => {
         <div className="selected-date-panel">
           <div className="panel-header">
             <h3>
-              Events for {currentDate.toLocaleString('default', { month: 'long' })} {selectedDate}, {currentDate.getFullYear()}
+              <i className="fas fa-list"></i>{' '}
+              Events for {formatSelectedDate()}
             </h3>
-            <button className="panel-close" onClick={() => setSelectedDate(null)}>
+            <button className="panel-close" onClick={() => { setSelectedDate(null); setSelectedDateEvents([]); }}>
               <i className="fas fa-times"></i>
             </button>
           </div>
           <div className="panel-events">
-            {getEventsForDate(selectedDate).length === 0 ? (
+            {selectedDateEvents.length === 0 ? (
               <p className="no-events">No events for this date</p>
             ) : (
-              getEventsForDate(selectedDate).map((event, idx) => {
+              selectedDateEvents.map((event, idx) => {
                 const color = getEventColor(event.type);
                 return (
                   <div key={idx} className="panel-event">
@@ -220,9 +401,19 @@ const UnifiedCalendar = ({ userRole, userId, onDateClick }) => {
                             <i className="fas fa-user-tie"></i> {event.staffName}
                           </span>
                         )}
+                        {event.customerName && (
+                          <span className="event-staff">
+                            <i className="fas fa-user"></i> {event.customerName}
+                          </span>
+                        )}
                         {event.status && (
                           <span className={`event-status status-${event.status}`}>
                             {event.status}
+                          </span>
+                        )}
+                        {event.amount && (
+                          <span className="event-amount">
+                            <i className="fas fa-money-bill"></i> R{event.amount?.toFixed(2)}
                           </span>
                         )}
                       </div>
