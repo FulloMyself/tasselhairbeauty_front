@@ -54,6 +54,11 @@ const Register = () => {
   return (
     <div className="auth-page">
       <div className="auth-container">
+        {/* Back to Home Button */}
+        <Link to="/" className="back-home-btn">
+          <i className="fas fa-arrow-left"></i> Back to Home
+        </Link>
+
         <div className="auth-header">
           <h1>Create Account</h1>
           <p>Join Tassel Hair & Beauty Studio</p>
@@ -173,11 +178,11 @@ const Register = () => {
         <p style={{ 
           textAlign: 'center', 
           marginTop: '20px', 
-          color: 'white' 
+          color: 'black' 
         }}>
           Already have an account?{' '}
           <Link to="/login" style={{ 
-            color: 'white', 
+            color: 'black', 
             fontWeight: '600',
             textDecoration: 'underline'
           }}>

@@ -30,74 +30,17 @@ const Login = () => {
     }
   };
 
-  // Quick login for testing
-  const quickLogin = (type) => {
-    const credentials = {
-      customer: { email: 'customer@example.com', password: 'customer123' },
-      staff: { email: 'sarah@tasselbeauty.co.za', password: 'staff123' },
-      admin: { email: 'admin@tasselbeauty.co.za', password: 'admin123' }
-    };
-    setFormData(credentials[type]);
-  };
-
   return (
     <div className="auth-page">
       <div className="auth-container">
+        {/* Back to Home Button */}
+        <Link to="/" className="back-home-btn">
+          <i className="fas fa-arrow-left"></i> Back to Home
+        </Link>
+
         <div className="auth-header">
           <h1>Welcome Back</h1>
           <p>Sign in to your account</p>
-        </div>
-        
-        {/* Quick login buttons for testing */}
-        <div style={{ 
-          display: 'flex', 
-          gap: '8px', 
-          marginBottom: '20px', 
-          justifyContent: 'center',
-          flexWrap: 'wrap'
-        }}>
-          <button 
-            type="button" 
-            className="btn btn-outline" 
-            style={{ 
-              padding: '6px 16px', 
-              fontSize: '12px',
-              background: 'rgba(255,255,255,0.2)',
-              border: '1px solid rgba(255,255,255,0.3)',
-              color: 'white'
-            }}
-            onClick={() => quickLogin('customer')}
-          >
-            Test Customer
-          </button>
-          <button 
-            type="button" 
-            className="btn btn-outline" 
-            style={{ 
-              padding: '6px 16px', 
-              fontSize: '12px',
-              background: 'rgba(255,255,255,0.2)',
-              border: '1px solid rgba(255,255,255,0.3)',
-              color: 'white'
-            }}
-            onClick={() => quickLogin('staff')}
-          >
-            Test Staff
-          </button>
-          <button 
-            type="button" 
-            className="btn btn-outline" 
-            style={{ 
-              padding: '6px 16px', 
-              fontSize: '12px',
-              background: 'rgba(255,255,255,0.2)',
-              border: '1px solid rgba(255,255,255,0.3)',
-              color: 'white'
-            }}
-            onClick={() => quickLogin('admin')}
-          >
-            Test Admin
-          </button>
         </div>
         
         {error && (
@@ -173,11 +116,11 @@ const Login = () => {
         <p style={{ 
           textAlign: 'center', 
           marginTop: '20px', 
-          color: 'white' 
+          color: 'black' 
         }}>
           Don't have an account?{' '}
           <Link to="/register" style={{ 
-            color: 'white', 
+            color: 'black', 
             fontWeight: '600',
             textDecoration: 'underline'
           }}>

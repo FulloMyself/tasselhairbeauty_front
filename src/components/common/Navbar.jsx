@@ -86,7 +86,6 @@ const Navbar = ({ onBookNow }) => {
         ) : (
           <>
             <li><Link to="/login" onClick={handleLinkClick}>Login</Link></li>
-            <li><Link to="/register" onClick={handleLinkClick}>Register</Link></li>
           </>
         )}
       </ul>
