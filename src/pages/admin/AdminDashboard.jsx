@@ -482,7 +482,7 @@ const AdminDashboard = () => {
                 )}
                 {activeTab === 'analytics' && <AnalyticsDashboard analytics={analytics} loading={loading} />}
                 {activeTab === 'profile' && <ProfileEditor user={user} onUpdate={fetchDashboardData} />}
-                {!['overview', 'users', 'services', 'products', 'bookings', 'orders', 'leave', 'payroll', 'analytics', 'profile'].includes(activeTab) && (
+                {!['overview', 'users', 'services', 'products', 'bookings', 'orders', 'leave', 'payroll', 'analytics', 'profile', 'calendar', 'specials'].includes(activeTab) && (
                     <div className="placeholder-content">
                         <h2>{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Management</h2>
                         <p>Coming soon...</p>
