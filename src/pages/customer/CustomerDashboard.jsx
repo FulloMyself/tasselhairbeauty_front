@@ -6,6 +6,7 @@ import UnifiedCalendar from '../../components/common/UnifiedCalendar';
 import DashboardSidebar from '../../components/dashboard/DashboardSidebar';
 import ProfileEditor from '../../components/dashboard/ProfileEditor';
 import CustomerHistory from '../../components/customer/CustomerHistory';
+import LoyaltyDashboard from '../../components/customer/LoyaltyDashboard';
 import '../../styles/dashboard.css';
 
 // Customer Overview Component - Fixed with proper tab switching
@@ -249,75 +250,6 @@ const OrdersList = ({ orders, loading }) => {
   );
 };
 
-// Loyalty Card Component
-const LoyaltyCard = ({ user }) => {
-  const tiers = ['bronze', 'silver', 'gold', 'platinum'];
-  const currentTier = user?.customerProfile?.loyaltyTier || 'bronze';
-  const points = user?.customerProfile?.loyaltyPoints || 0;
-  const nextTier = tiers[tiers.indexOf(currentTier) + 1];
-  const pointsNeeded = { bronze: 0, silver: 500, gold: 1500, platinum: 3000 };
-
-  return (
-    <div className="loyalty-section">
-      <h2>Loyalty Program</h2>
-
-      <div className={`loyalty-card tier-${currentTier}`}>
-        <div className="loyalty-header">
-          <i className="fas fa-crown"></i>
-          <h3>{currentTier.charAt(0).toUpperCase() + currentTier.slice(1)} Member</h3>
-        </div>
-        <div className="loyalty-points">
-          <span className="points-value">{points}</span>
-          <span className="points-label">Loyalty Points</span>
-        </div>
-        {nextTier && (
-          <div className="loyalty-progress">
-            <div className="progress-bar">
-              <div className="progress-fill" style={{ width: `${Math.min((points / pointsNeeded[nextTier]) * 100, 100)}%` }}></div>
-            </div>
-            <p>{pointsNeeded[nextTier] - points} points to {nextTier}</p>
-          </div>
-        )}
-      </div>
-
-      <div className="loyalty-benefits">
-        <h4>Your Benefits</h4>
-        <ul>
-          {currentTier === 'bronze' && (
-            <>
-              <li><i className="fas fa-check"></i> Earn 1 point per R10 spent</li>
-              <li><i className="fas fa-check"></i> Birthday discount</li>
-            </>
-          )}
-          {currentTier === 'silver' && (
-            <>
-              <li><i className="fas fa-check"></i> Earn 1.5 points per R10 spent</li>
-              <li><i className="fas fa-check"></i> 10% off products</li>
-              <li><i className="fas fa-check"></i> Priority booking</li>
-            </>
-          )}
-          {currentTier === 'gold' && (
-            <>
-              <li><i className="fas fa-check"></i> Earn 2 points per R10 spent</li>
-              <li><i className="fas fa-check"></i> 15% off products</li>
-              <li><i className="fas fa-check"></i> Free birthday treatment</li>
-              <li><i className="fas fa-check"></i> Bring a friend discount</li>
-            </>
-          )}
-          {currentTier === 'platinum' && (
-            <>
-              <li><i className="fas fa-check"></i> Earn 3 points per R10 spent</li>
-              <li><i className="fas fa-check"></i> 20% off all services</li>
-              <li><i className="fas fa-check"></i> Free monthly treatment</li>
-              <li><i className="fas fa-check"></i> Exclusive event access</li>
-            </>
-          )}
-        </ul>
-      </div>
-    </div>
-  );
-};
-
 // ============================================================
 // MAIN CUSTOMER DASHBOARD COMPONENT
 // ============================================================
@@ -382,7 +314,7 @@ const CustomerDashboard = () => {
         {activeTab === 'orders' && <OrdersList orders={orders} loading={loading} />}
         {activeTab === 'history' && <CustomerHistory />}
         {activeTab === 'profile' && <ProfileEditor user={user} onUpdate={fetchDashboardData} />}
-        {activeTab === 'loyalty' && <LoyaltyCard user={user} />}
+        {activeTab === 'loyalty' && <LoyaltyDashboard />}
       </div>
     </div>
   );

@@ -21,6 +21,7 @@ import BookingPage from './pages/BookingPage';
 
 // Components
 import ProtectedRoute from './components/auth/ProtectedRoute';
+import LoyaltyDashboard from './components/customer/LoyaltyDashboard';
 
 // Styles - Import in correct order
 import './styles/variables.css';
@@ -30,6 +31,7 @@ import './styles/auth.css';
 import './styles/responsive.css';
 import './styles/admin.css';
 import './styles/dashboard.css';
+import './styles/loyalty.css';
 
 // Redirect handler component (must be inside Router)
 const RedirectHandler = () => {
@@ -114,6 +116,11 @@ function App() {
               <Route path="/booking" element={
                 <ProtectedRoute requiredRole="customer">
                   <BookingPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/loyalty" element={
+                <ProtectedRoute requiredRole="customer">
+                  <LoyaltyDashboard />
                 </ProtectedRoute>
               } />
 
