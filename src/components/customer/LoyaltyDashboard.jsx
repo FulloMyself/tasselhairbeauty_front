@@ -31,11 +31,32 @@ const LoyaltyDashboard = () => {
     }
   };
 
-  const handleCopyReferralCode = () => {
-    if (referralInfo?.referralCode) {
-      navigator.clipboard.writeText(referralInfo.referralCode);
+  const handleCopyReferralCode = async () => {
+    if (!referralInfo?.referralCode) return;
+
+    try {
+      const code = referralInfo.referralCode;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(code);
+      } else {
+        const textArea = document.createElement('textarea');
+        textArea.value = code;
+        textArea.setAttribute('readonly', '');
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-9999px';
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+      }
+
       setMessage('Referral code copied to clipboard!');
       setTimeout(() => setMessage(''), 3000);
+    } catch (error) {
+      console.error('Clipboard copy failed:', error);
+      setMessage('Could not copy automatically. Please copy the code manually.');
+      setTimeout(() => setMessage(''), 5000);
     }
   };
 
