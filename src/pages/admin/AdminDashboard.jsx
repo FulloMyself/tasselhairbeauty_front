@@ -71,6 +71,20 @@ const AdminOverview = ({ stats, onAddStaff, onAddProduct, onAddService, onProces
                     <p>Monthly Growth</p>
                 </div>
             </div>
+            <div className="stat-card">
+                <div className="stat-icon"><i className="fas fa-star"></i></div>
+                <div className="stat-info">
+                    <h3>{stats?.loyalty?.totalVisits || 0}</h3>
+                    <p>Total Loyalty Visits</p>
+                </div>
+            </div>
+            <div className="stat-card">
+                <div className="stat-icon"><i className="fas fa-handshake"></i></div>
+                <div className="stat-info">
+                    <h3>{stats?.loyalty?.totalQualifiedReferrals || 0}</h3>
+                    <p>Qualified Referrals</p>
+                </div>
+            </div>
         </div>
 
         <div className="admin-quick-actions">
@@ -387,6 +401,55 @@ const HighlightText = ({ text, highlight }) => {
     );
 };
 
+const LoyaltyManagement = ({ loyalty }) => (
+    <div className="admin-loyalty-overview">
+        <div className="section-header">
+            <h2>Loyalty Program Management</h2>
+            <p>Monitor visit rewards and referral progress for registered customers.</p>
+        </div>
+
+        <div className="stats-grid admin-stats loyalty-stats">
+            <div className="stat-card">
+                <div className="stat-icon"><i className="fas fa-user-friends"></i></div>
+                <div className="stat-info">
+                    <h3>{loyalty?.totalCustomers || 0}</h3>
+                    <p>Loyalty Members</p>
+                </div>
+            </div>
+            <div className="stat-card">
+                <div className="stat-icon"><i className="fas fa-calendar-day"></i></div>
+                <div className="stat-info">
+                    <h3>{loyalty?.totalVisits || 0}</h3>
+                    <p>Total Visits Logged</p>
+                </div>
+            </div>
+            <div className="stat-card">
+                <div className="stat-icon"><i className="fas fa-award"></i></div>
+                <div className="stat-info">
+                    <h3>{loyalty?.totalReferrals || 0}</h3>
+                    <p>Referrals Made</p>
+                </div>
+            </div>
+            <div className="stat-card">
+                <div className="stat-icon"><i className="fas fa-medal"></i></div>
+                <div className="stat-info">
+                    <h3>{loyalty?.totalQualifiedReferrals || 0}</h3>
+                    <p>Qualified Referrals</p>
+                </div>
+            </div>
+        </div>
+
+        <div className="loyalty-notes-card">
+            <h3>Program rules</h3>
+            <ul>
+                <li>Visit 5 earns 50% off your next treatment.</li>
+                <li>Visit 11 earns a free treatment.</li>
+                <li>3 qualified referrals with services from R500+ unlock a free treatment.</li>
+            </ul>
+        </div>
+    </div>
+);
+
 // ============================================================
 // MAIN ADMIN DASHBOARD
 // ============================================================
@@ -450,6 +513,7 @@ const AdminDashboard = () => {
         { id: 'leave', label: 'Leave', icon: 'fas fa-umbrella-beach', badge: pendingLeave || null, badgeType: 'warning' },
         { id: 'payroll', label: 'Payroll', icon: 'fas fa-money-bill' },
         { id: 'analytics', label: 'Analytics', icon: 'fas fa-chart-bar' },
+        { id: 'loyalty', label: 'Loyalty', icon: 'fas fa-star' },
         { id: 'profile', label: 'Profile', icon: 'fas fa-user-cog' },
         { id: 'calendar', label: 'Calendar', icon: 'fas fa-calendar-alt' },
     ];
@@ -473,6 +537,7 @@ const AdminDashboard = () => {
                         onProcessPayroll={() => setShowPayrollModal(true)}
                     />
                 )}
+                {activeTab === 'loyalty' && <LoyaltyManagement loyalty={stats?.loyalty} />}
                 {activeTab === 'users' && (
                     <UserManagement
                         users={users}
@@ -482,7 +547,7 @@ const AdminDashboard = () => {
                 )}
                 {activeTab === 'analytics' && <AnalyticsDashboard analytics={analytics} loading={loading} />}
                 {activeTab === 'profile' && <ProfileEditor user={user} onUpdate={fetchDashboardData} />}
-                {!['overview', 'users', 'services', 'products', 'bookings', 'orders', 'leave', 'payroll', 'analytics', 'profile', 'calendar', 'specials'].includes(activeTab) && (
+                {!['overview', 'users', 'services', 'products', 'bookings', 'orders', 'leave', 'payroll', 'analytics', 'profile', 'calendar', 'specials', 'loyalty'].includes(activeTab) && (
                     <div className="placeholder-content">
                         <h2>{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Management</h2>
                         <p>Coming soon...</p>
@@ -496,7 +561,6 @@ const AdminDashboard = () => {
                 {activeTab === 'orders' && <OrdersManagement />}
                 {activeTab === 'leave' && <LeaveManagement />}
                 {activeTab === 'payroll' && <PayrollManagement />}
-
             </div>
 
             {/* Modals */}
@@ -527,4 +591,5 @@ const AdminDashboard = () => {
         </div>
     );
 };
+
 export default AdminDashboard;

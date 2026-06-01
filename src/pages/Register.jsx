@@ -1,19 +1,29 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import api from '../utils/api';
 
 const Register = () => {
+  const location = useLocation();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    referralCode: ''
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const referral = params.get('ref') || params.get('referral');
+    if (referral) {
+      setFormData(prev => ({ ...prev, referralCode: referral }));
+    }
+  }, [location.search]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -41,7 +51,8 @@ const Register = () => {
         lastName: formData.lastName,
         email: formData.email,
         phone: formData.phone,
-        password: formData.password
+        password: formData.password,
+        referralCode: formData.referralCode?.trim() || undefined
       });
       navigate('/login');
     } catch (err) {
@@ -129,6 +140,17 @@ const Register = () => {
               value={formData.phone} 
               onChange={handleChange} 
               placeholder="071 234 5678"
+            />
+          </div>
+
+          <div className="form-group">
+            <label><i className="fas fa-tag"></i> Referral Code (optional)</label>
+            <input
+              type="text"
+              name="referralCode"
+              value={formData.referralCode}
+              onChange={handleChange}
+              placeholder="Enter referral code"
             />
           </div>
           

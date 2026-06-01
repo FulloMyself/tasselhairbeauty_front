@@ -98,6 +98,7 @@ const UnifiedCalendar = ({ userRole, userId, onDateClick }) => {
       leave: { bg: '#fee2e2', text: '#991b1b', icon: 'fa-umbrella-beach' },
       appointment: { bg: '#d1fae5', text: '#065f46', icon: 'fa-cut' },
       order: { bg: '#fef3c7', text: '#92400e', icon: 'fa-shopping-cart' },
+      user: { bg: '#e0f2fe', text: '#0369a1', icon: 'fa-user' },
       special: { bg: '#fce7f3', text: '#9d174d', icon: 'fa-tag' },
       payroll: { bg: '#e0e7ff', text: '#3730a3', icon: 'fa-money-bill' },
     };
@@ -245,6 +246,9 @@ const UnifiedCalendar = ({ userRole, userId, onDateClick }) => {
         </span>
         <span className="legend-item">
           <span className="legend-dot" style={{ background: '#d1fae5' }}></span> Appointments
+        </span>
+        <span className="legend-item">
+          <span className="legend-dot" style={{ background: '#e0f2fe' }}></span> User Events
         </span>
         <span className="legend-item">
           <span className="legend-dot" style={{ background: '#fef3c7' }}></span> Orders

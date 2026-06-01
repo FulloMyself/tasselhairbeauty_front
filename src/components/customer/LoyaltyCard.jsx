@@ -98,6 +98,10 @@ const LoyaltyCard = () => {
           </div>
           <div className="loyalty-referral">
             <div className="referral-stat">
+              <span className="stat-label">Total Referrals</span>
+              <span className="stat-value">{loyalty.referralsCount || 0}</span>
+            </div>
+            <div className="referral-stat">
               <span className="stat-label">Qualified Referrals</span>
               <span className="stat-value">{loyalty.referralReward.qualifiedReferrals || 0}/3</span>
             </div>
