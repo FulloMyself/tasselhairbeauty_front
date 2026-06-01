@@ -447,6 +447,42 @@ const LoyaltyManagement = ({ loyalty }) => (
                 <li>3 qualified referrals with services from R500+ unlock a free treatment.</li>
             </ul>
         </div>
+
+        {loyalty?.referralsList && loyalty.referralsList.length > 0 && (
+            <div className="section-header" style={{ marginTop: '1.5rem' }}>
+                <h3>Recent Referrals</h3>
+                <p>Shows referrer, referred client and referral date.</p>
+            </div>
+        )}
+
+        {loyalty?.referralsList && loyalty.referralsList.length > 0 && (
+            <div className="users-table-wrapper" style={{ marginTop: '0.5rem' }}>
+                <table className="users-table">
+                    <thead>
+                        <tr>
+                            <th>Referrer</th>
+                            <th>Referred Client</th>
+                            <th>Email</th>
+                            <th>Date</th>
+                            <th>Qualified</th>
+                            <th>Amount Spent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {loyalty.referralsList.map((r, idx) => (
+                            <tr key={idx}>
+                                <td>{r.referrerName || 'N/A'}</td>
+                                <td>{r.referredCustomerName || 'N/A'}</td>
+                                <td>{r.referredCustomerEmail || '-'}</td>
+                                <td>{r.referralDate ? new Date(r.referralDate).toLocaleDateString() : '-'}</td>
+                                <td>{r.isQualified ? 'Yes' : 'No'}</td>
+                                <td>R{(r.totalAmountSpent || 0).toFixed(2)}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        )}
     </div>
 );
 
