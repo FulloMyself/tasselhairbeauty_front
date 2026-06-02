@@ -5,8 +5,8 @@ import api from '../utils/api';
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [resetUrl, setResetUrl] = useState('');
   const [tempPassword, setTempPassword] = useState('');
+  const [whatsAppLink, setWhatsAppLink] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -16,14 +16,13 @@ const ForgotPassword = () => {
     e.preventDefault();
     setError('');
     setMessage('');
-    setResetUrl('');
     setLoading(true);
 
     try {
       const response = await api.post('/auth/forgot-password', { email, phone });
       setMessage(response.data.message || 'If those details are registered, instructions have been sent.');
-      setResetUrl(response.data.resetUrl || '');
       setTempPassword(response.data.tempPassword || '');
+      setWhatsAppLink(response.data.whatsAppLink || '');
     } catch (err) {
       setError(err.response?.data?.message || 'Unable to process your request. Please try again later.');
     } finally {
@@ -40,7 +39,7 @@ const ForgotPassword = () => {
 
         <div className="auth-header">
           <h1>Forgot Password</h1>
-          <p>Enter your email and registered phone number to generate a reset link.</p>
+          <p>Enter your email and registered phone number to generate a temporary password.</p>
         </div>
 
         {message && <div className="alert alert-success" style={{ marginBottom: '20px' }}>{message}</div>}
@@ -81,14 +80,14 @@ const ForgotPassword = () => {
           </div>
 
           <button type="submit" className="btn btn-primary" disabled={loading} style={{ width: '100%', marginTop: '10px' }}>
-            {loading ? (<><i className="fas fa-spinner fa-spin"></i> Sending...</>) : (<><i className="fas fa-paper-plane"></i> Generate Reset Link</>) }
+            {loading ? (<><i className="fas fa-spinner fa-spin"></i> Sending...</>) : (<><i className="fas fa-paper-plane"></i> Generate Temporary Password</>) }
           </button>
         </form>
 
-        {resetUrl && (
+        {whatsAppLink && (
           <div className="reset-link-box" style={{ marginTop: '20px', padding: '1rem', border: '1px solid #ddd', borderRadius: '12px', background: '#f8f8f8' }}>
-            <p style={{ margin: 0, fontWeight: 600 }}>Your password reset link:</p>
-            <a href={resetUrl} target="_blank" rel="noreferrer" style={{ wordBreak: 'break-all', color: '#007bff' }}>{resetUrl}</a>
+            <p style={{ margin: 0, fontWeight: 600 }}>Open WhatsApp:</p>
+            <a href={whatsAppLink} target="_blank" rel="noreferrer" style={{ wordBreak: 'break-all', color: '#25D366' }}>{whatsAppLink}</a>
           </div>
         )}
 

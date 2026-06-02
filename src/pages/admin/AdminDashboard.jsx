@@ -24,11 +24,22 @@ import UnifiedCalendar from '../../components/common/UnifiedCalendar';
 
 
 // Admin Overview Component
-const AdminOverview = ({ stats, onAddStaff, onAddProduct, onAddService, onProcessPayroll }) => (
-    <div className="admin-overview">
-        <h2>Dashboard Overview</h2>
+const AdminOverview = ({ stats, onAddStaff, onAddProduct, onAddService, onProcessPayroll }) => {
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 5;
+    const activityList = stats?.recentActivity || [];
+    const totalPages = Math.max(1, Math.ceil(activityList.length / pageSize));
+    const paginatedActivity = activityList.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
-        <div className="stats-grid admin-stats">
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [stats?.recentActivity]);
+
+    return (
+        <div className="admin-overview">
+            <h2>Dashboard Overview</h2>
+
+            <div className="stats-grid admin-stats">
             <div className="stat-card">
                 <div className="stat-icon"><i className="fas fa-users"></i></div>
                 <div className="stat-info">
@@ -106,9 +117,12 @@ const AdminOverview = ({ stats, onAddStaff, onAddProduct, onAddService, onProces
         </div>
 
         <div className="recent-activity">
-            <h3>Recent Activity</h3>
+            <div className="recent-activity-header">
+                <h3>Recent Activity</h3>
+                <span>{activityList.length} item{activityList.length !== 1 ? 's' : ''}</span>
+            </div>
             <div className="activity-list">
-                {stats?.recentActivity?.map((activity, idx) => (
+                {paginatedActivity.map((activity, idx) => (
                     <div key={idx} className="activity-item">
                         <div className={`activity-icon activity-${activity.type}`}>
                             <i className={`fas fa-${activity.icon}`}></i>
@@ -119,10 +133,36 @@ const AdminOverview = ({ stats, onAddStaff, onAddProduct, onAddService, onProces
                         </div>
                     </div>
                 ))}
+                {paginatedActivity.length === 0 && (
+                    <div className="empty-state small">
+                        <p>No recent activity available.</p>
+                    </div>
+                )}
             </div>
+
+            {totalPages > 1 && (
+                <div className="activity-pagination">
+                    <button
+                        className="btn btn-outline btn-sm"
+                        onClick={() => setCurrentPage(currentPage - 1)}
+                        disabled={currentPage === 1}
+                    >
+                        Previous
+                    </button>
+                    <span>Page {currentPage} of {totalPages}</span>
+                    <button
+                        className="btn btn-outline btn-sm"
+                        onClick={() => setCurrentPage(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                    >
+                        Next
+                    </button>
+                </div>
+            )}
         </div>
     </div>
-);
+  );
+};
 
 // User Management Component
 const UserManagement = ({ users, loading, onUserUpdate }) => {
@@ -132,6 +172,21 @@ const UserManagement = ({ users, loading, onUserUpdate }) => {
     const [editingUser, setEditingUser] = useState(null);
     const [confirmDialog, setConfirmDialog] = useState(null);
     const [actionLoading, setActionLoading] = useState(null);
+    const [selectedUserHistory, setSelectedUserHistory] = useState(null);
+    const [historyLoading, setHistoryLoading] = useState(false);
+
+    const handleViewHistory = async (user) => {
+        try {
+            setHistoryLoading(true);
+            const response = await api.get(`/admin/users/${user._id}`);
+            setSelectedUserHistory(response.data.data);
+        } catch (error) {
+            console.error('Failed to load user history:', error);
+            alert('Unable to load user history. Please try again.');
+        } finally {
+            setHistoryLoading(false);
+        }
+    };
 
     // Filter by role AND search term
     const filteredUsers = users?.filter(u => {
@@ -306,6 +361,14 @@ const UserManagement = ({ users, loading, onUserUpdate }) => {
                                     <div className="action-buttons">
                                         <button
                                             className="btn-icon"
+                                            title="View Reset History"
+                                            onClick={() => handleViewHistory(user)}
+                                            disabled={historyLoading}
+                                        >
+                                            {historyLoading ? <i className="fas fa-spinner fa-spin"></i> : <i className="fas fa-history"></i>}
+                                        </button>
+                                        <button
+                                            className="btn-icon"
                                             title="Edit User"
                                             onClick={() => handleEdit(user)}
                                         >
@@ -376,6 +439,62 @@ const UserManagement = ({ users, loading, onUserUpdate }) => {
                     onConfirm={confirmDialog.onConfirm}
                     onCancel={() => setConfirmDialog(null)}
                 />
+            )}
+
+            {selectedUserHistory && (
+                <div className="modal-overlay">
+                    <div className="modal-content admin-reset-history-modal">
+                        <div className="modal-header">
+                            <h3>Reset Password History</h3>
+                            <button className="close-button" onClick={() => setSelectedUserHistory(null)}>
+                                <i className="fas fa-times" />
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <p><strong>User:</strong> {selectedUserHistory.firstName} {selectedUserHistory.lastName} ({selectedUserHistory.email})</p>
+                            {selectedUserHistory.passwordResetHistory?.length > 0 ? (
+                                <table className="history-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                            <th>Method</th>
+                                            <th>Phone</th>
+                                            <th>Temp Password</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {selectedUserHistory.passwordResetHistory.map((entry, idx) => (
+                                            <tr key={idx}>
+                                                <td>{new Date(entry.requestedAt).toLocaleString()}</td>
+                                                <td>{entry.status}</td>
+                                                <td>{entry.method}</td>
+                                                <td>{entry.sentTo || '-'}</td>
+                                                <td>{entry.tempPassword || '-'}</td>
+                                                <td>
+                                                    {entry.tempPassword && (
+                                                        <button
+                                                            className="btn btn-sm btn-secondary"
+                                                            onClick={() => navigator.clipboard.writeText(entry.tempPassword)}
+                                                        >
+                                                            Copy
+                                                        </button>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            ) : (
+                                <p>No password reset history found for this user.</p>
+                            )}
+                        </div>
+                        <div className="modal-footer">
+                            <button className="btn btn-primary" onClick={() => setSelectedUserHistory(null)}>Close</button>
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );
