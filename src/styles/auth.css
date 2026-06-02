@@ -1,10 +1,25 @@
 /* Auth Page Styles */
 
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--gold, #9a8060) 0%, var(--deep, #1a1a18) 100%);
+  padding: 1rem;
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 480px;
+}
+
+/* Back to Home Button */
 .back-home-btn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: black;
+  color: white;
   text-decoration: none;
   font-size: 0.85rem;
   margin-bottom: 1.5rem;
@@ -12,6 +27,9 @@
   background: rgba(255, 255, 255, 0.15);
   border-radius: 20px;
   transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-sans, 'Jost', sans-serif);
 }
 
 .back-home-btn:hover {
@@ -25,20 +43,7 @@
   margin-right: 0;
 }
 
-.auth-page {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
-  padding: 1rem;
-}
-
-.auth-container {
-  width: 100%;
-  max-width: 600px;
-}
-
+/* Password Field */
 .password-field {
   position: relative;
 }
@@ -54,16 +59,21 @@
   transform: translateY(-50%);
   border: none;
   background: transparent;
-  color: #333;
+  color: var(--muted, #8a7e78);
   font-size: 1rem;
   cursor: pointer;
   padding: 0;
+}
+
+.password-toggle:hover {
+  color: var(--gold, #9a8060);
 }
 
 .password-toggle:focus {
   outline: none;
 }
 
+/* Auth Header */
 .auth-header {
   text-align: center;
   color: white;
@@ -71,21 +81,220 @@
 }
 
 .auth-header h1 {
+  font-family: var(--font-serif, 'Cormorant Garamond', serif);
   font-size: 2.5rem;
+  font-weight: 300;
   margin-bottom: 0.5rem;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .auth-header p {
-  font-size: 1.1rem;
+  font-size: 1rem;
   opacity: 0.9;
+  font-weight: 300;
 }
 
-/* Responsive Design */
+/* Auth Form */
+.auth-form {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.auth-form .form-group {
+  margin-bottom: 1.2rem;
+}
+
+.auth-form label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--deep, #1a1a18);
+  margin-bottom: 0.5rem;
+}
+
+.auth-form label i {
+  width: 20px;
+  color: var(--gold, #9a8060);
+  margin-right: 6px;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--light, #e8e4e0);
+  border-radius: 10px;
+  font-family: var(--font-sans, 'Jost', sans-serif);
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.auth-form input:focus {
+  outline: none;
+  border-color: var(--gold, #9a8060);
+  box-shadow: 0 0 0 3px rgba(154, 128, 96, 0.1);
+}
+
+/* Alerts */
+.alert {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+}
+
+.alert i {
+  margin-right: 8px;
+  font-size: 1rem;
+}
+
+.alert-success {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: white;
+}
+
+.alert-error {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: white;
+}
+
+.alert-info {
+  background: rgba(59, 130, 246, 0.2);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: white;
+}
+
+/* Reset Link Box */
+.reset-link-box {
+  margin-top: 20px;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.reset-link-box a {
+  color: #25D366;
+  word-break: break-all;
+}
+
+/* Temp Password Display */
+.temp-password-display {
+  background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+  border: 2px solid #34d399;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.temp-password-display .check-icon {
+  width: 50px;
+  height: 50px;
+  background: #065f46;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+}
+
+.temp-password-display .check-icon i {
+  color: white;
+  font-size: 1.5rem;
+}
+
+.temp-password-display .label {
+  color: #065f46;
+  font-weight: 600;
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+}
+
+.temp-password-display .password-code {
+  background: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.temp-password-display .password-code code {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #065f46;
+  font-family: monospace;
+}
+
+/* Auth Links */
+.auth-links {
+  text-align: center;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.auth-links a {
+  color: white;
+  font-weight: 500;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.auth-links a:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+.auth-links .secondary-link {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+}
+
+/* WhatsApp Contact Box */
+.whatsapp-contact {
+  background: rgba(37, 211, 102, 0.15);
+  border: 1px solid rgba(37, 211, 102, 0.3);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 20px;
+  text-align: center;
+  color: white;
+}
+
+.whatsapp-contact .whatsapp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #25D366;
+  border: none;
+  color: white;
+  padding: 10px 24px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.whatsapp-contact .whatsapp-btn:hover {
+  background: #128C7E;
+}
+
+/* Responsive */
 @media (max-width: 576px) {
   .auth-page {
-    padding: 0;
-    min-height: calc(100vh - 60px);
+    padding: 1rem;
+    min-height: 100vh;
   }
 
   .auth-header h1 {
@@ -93,6 +302,10 @@
   }
 
   .auth-header p {
-    font-size: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .auth-form {
+    padding: 1.5rem;
   }
 }

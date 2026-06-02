@@ -99,17 +99,30 @@ const Login = () => {
             </button>
           </div>
           
-          <div className="form-row" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
-            <button type="button" className="link-btn" onClick={() => navigate('/forgot-password')} style={{ padding: 0, fontSize: '0.95rem' }}>
+          {/* Forgot Password Link */}
+          <div style={{ textAlign: 'right', marginBottom: '15px' }}>
+            <Link 
+              to="/forgot-password" 
+              style={{ 
+                color: 'var(--gold, #9a8060)', 
+                fontSize: '0.85rem', 
+                textDecoration: 'none',
+                fontWeight: '500',
+                transition: 'color 0.3s ease'
+              }}
+              onMouseEnter={(e) => e.target.style.color = 'var(--gold-dark, #7a6050)'}
+              onMouseLeave={(e) => e.target.style.color = 'var(--gold, #9a8060)'}
+            >
+              <i className="fas fa-key" style={{ marginRight: '5px', fontSize: '0.75rem' }}></i>
               Forgot password?
-            </button>
+            </Link>
           </div>
 
           <button 
             type="submit" 
             className="btn btn-primary" 
             disabled={loading}
-            style={{ width: '100%', marginTop: '10px' }}
+            style={{ width: '100%' }}
           >
             {loading ? (
               <>
@@ -126,11 +139,11 @@ const Login = () => {
         <p style={{ 
           textAlign: 'center', 
           marginTop: '20px', 
-          color: 'black' 
+          color: 'white' 
         }}>
           Don't have an account?{' '}
           <Link to="/register" style={{ 
-            color: 'black', 
+            color: 'white', 
             fontWeight: '600',
             textDecoration: 'underline'
           }}>
