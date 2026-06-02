@@ -17,12 +17,24 @@ const LoyaltyDashboard = () => {
 
   const fetchLoyaltyData = async () => {
     try {
-      const [loyaltyRes, referralRes] = await Promise.all([
+      const [loyaltyResult, referralResult] = await Promise.allSettled([
         api.get('/customer/loyalty'),
         api.get('/customer/loyalty/referral-info')
       ]);
-      setLoyalty(loyaltyRes.data.data);
-      setReferralInfo(referralRes.data.data);
+
+      if (loyaltyResult.status === 'fulfilled') {
+        setLoyalty(loyaltyResult.value.data.data);
+      } else {
+        console.error('Failed to fetch loyalty visit data:', loyaltyResult.reason);
+        setMessage('Failed to load loyalty visit data.');
+      }
+
+      if (referralResult.status === 'fulfilled') {
+        setReferralInfo(referralResult.value.data.data);
+      } else {
+        console.error('Failed to fetch referral info:', referralResult.reason);
+        setMessage(prev => prev ? prev + ' Referral info unavailable right now.' : 'Referral info unavailable right now.');
+      }
     } catch (error) {
       console.error('Failed to fetch loyalty data:', error);
       setMessage('Failed to load loyalty information');

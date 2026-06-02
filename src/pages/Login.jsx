@@ -6,6 +6,7 @@ const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -79,13 +80,13 @@ const Login = () => {
             />
           </div>
           
-          <div className="form-group">
+          <div className="form-group password-field">
             <label htmlFor="password">
               <i className="fas fa-lock"></i> Password
             </label>
             <input
               id="password"
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               name="password"
               value={formData.password}
               onChange={handleChange}
@@ -93,8 +94,17 @@ const Login = () => {
               placeholder="••••••••"
               autoComplete="current-password"
             />
+            <button type="button" className="password-toggle" onClick={() => setShowPassword((prev) => !prev)}>
+              <i className={showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'}></i>
+            </button>
           </div>
           
+          <div className="form-row" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+            <button type="button" className="link-btn" onClick={() => navigate('/forgot-password')} style={{ padding: 0, fontSize: '0.95rem' }}>
+              Forgot password?
+            </button>
+          </div>
+
           <button 
             type="submit" 
             className="btn btn-primary" 

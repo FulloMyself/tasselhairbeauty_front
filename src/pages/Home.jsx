@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
 import Navbar from '../components/common/Navbar';
@@ -17,6 +17,7 @@ const Home = () => {
   const [lightboxContent, setLightboxContent] = useState(null);
   const [showTeamModal, setShowTeamModal] = useState(false);
   const [selectedTeamMember, setSelectedTeamMember] = useState(null);
+  const navigate = useNavigate();
   
   // Use Vite's BASE_URL which works in both dev and production
   const basePath = import.meta.env.BASE_URL || '/';
@@ -164,7 +165,7 @@ const Home = () => {
                 <h1>Where <em>Kiddies Hair</em> meets <br />Luxury Family Beauty</h1>
                 <p className="hero-sub">Premium Hair, Nails, Barber & Beauty — designed for families.</p>
                 <div className="btn-group">
-                  <button className="btn-primary" onClick={openBooking}><i className="fas fa-calendar-check"></i> Book Appointment</button>
+                  <button className="btn-primary" onClick={() => navigate('/register')}><i className="fas fa-user-plus"></i> Join the Tassel Family</button>
                   <a href="https://maps.google.com/?q=101+Bellairs+Drive+Glenvista+Johannesburg" className="btn-outline" target="_blank" rel="noopener noreferrer"><i className="fas fa-location-dot"></i> Get Directions</a>
                 </div>
               </div>
@@ -178,7 +179,7 @@ const Home = () => {
                 <p className="hero-sub">Beauty for the whole family — a wholistic approach to family time.</p>
                 <div className="btn-group">
                   <a href={`${assetsPath}pricelists/Tassel_Barber_Price_List.pdf`} className="btn-primary" target="_blank" rel="noopener noreferrer"><i className="fas fa-cut"></i> View Barber Prices</a>
-                  <button className="btn-outline" onClick={openBooking}><i className="fas fa-scissors"></i> Book Barber Slot</button>
+                  <button className="btn-outline" onClick={() => navigate('/register')}><i className="fas fa-user-plus"></i> Become a Client</button>
                 </div>
               </div>
             </div>
@@ -190,7 +191,7 @@ const Home = () => {
                 <h1>Parents & Kids <br /><em>Pampered Together</em></h1>
                 <p className="hero-sub">Hair, barber, nails & beauty services for the whole family.</p>
                 <div className="btn-group">
-                  <button className="btn-primary" onClick={openBooking}><i className="fas fa-calendar-check"></i> Book Family Visit</button>
+                  <button className="btn-primary" onClick={() => navigate('/register')}><i className="fas fa-user-plus"></i> Register Today</button>
                   <a href="#services" className="btn-outline"><i className="fas fa-spa"></i> Explore Services</a>
                 </div>
               </div>
@@ -255,7 +256,7 @@ const Home = () => {
                 </div>
                 <div className="btn-group fade">
                   <a href={`${assetsPath}pricelists/Tassel_Barber_Price_List.pdf`} className="btn-primary" target="_blank" rel="noopener noreferrer"><i className="fas fa-cut"></i> View Barber Prices</a>
-                  <button className="btn-outline" onClick={openBooking}><i className="fas fa-scissors"></i> Book Now</button>
+                  <button className="btn-outline" onClick={() => navigate('/register')}><i className="fas fa-user-plus"></i> Register Now</button>
                 </div>
               </div>
               <div className="barber-image fade"><img src={`${assetsPath}images/BarbarSection.jpeg`} alt="Barber Section at Tassel Studio" className="barber-img" /></div>
@@ -271,11 +272,11 @@ const Home = () => {
             <div className="specials-carousel-container">
               <div className="specials-carousel">
                 <div className={`special-slide ${currentSpecialSlide === 0 ? 'active' : ''}`}><div className="special-card featured"><img src={`${assetsPath}specials/OpeningSpecials.jpeg`} alt="FREE Kiddies Party Pack" className="special-poster" /><div className="special-badge"><i className="fas fa-fire"></i> HOT DEAL</div><div className="special-overlay"><h3>FREE Kiddies Party Pack</h3><p>With any kiddies haircut or styling service</p><div className="special-valid">Valid until: 30 April 2026</div><button className="btn-special" onClick={openBooking}><i className="fas fa-arrow-right"></i> Claim Now</button></div></div></div>
-                <div className={`special-slide ${currentSpecialSlide === 1 ? 'active' : ''}`}><div className="special-card"><img src={`${assetsPath}specials/MidweekGlow.jpeg`} alt="Midweek Glow" className="special-poster" /><div className="special-overlay"><h3>Midweek Glow</h3><p>With any beauty service</p><div className="special-valid">Limited time offer</div><button className="btn-special" onClick={openBooking}><i className="fas fa-arrow-right"></i> Book Now</button></div></div></div>
-                <div className={`special-slide ${currentSpecialSlide === 2 ? 'active' : ''}`}><div className="special-card"><img src={`${assetsPath}specials/WaxyWednesdays.jpeg`} alt="Waxy Wednesdays" className="special-poster" /><div className="special-overlay"><h3>Waxy Wednesdays</h3><p>With any beauty service</p><div className="special-valid">Limited time offer</div><button className="btn-special" onClick={openBooking}><i className="fas fa-arrow-right"></i> Book Now</button></div></div></div>
-                <div className={`special-slide ${currentSpecialSlide === 3 ? 'active' : ''}`}><div className="special-card"><img src={`${assetsPath}specials/DadxMiniSpecial.jpeg`} alt="Daddy & Mini" className="special-poster" /><div className="special-overlay"><h3>Daddy & Mini Special</h3><p>With any beauty service</p><div className="special-valid">Limited time offer</div><button className="btn-special" onClick={openBooking}><i className="fas fa-arrow-right"></i> Book Now</button></div></div></div>
-                <div className={`special-slide ${currentSpecialSlide === 4 ? 'active' : ''}`}><div className="special-card"><img src={`${assetsPath}specials/Mother's Day_page-0001.jpg`} alt="Mother's Day Sale" className="special-poster" /><div className="special-overlay"><h3>Mother's Day Sale</h3><p>With any beauty service</p><div className="special-valid">Limited time offer</div><button className="btn-special" onClick={openBooking}><i className="fas fa-arrow-right"></i> Book Now</button></div></div></div>
-                <div className={`special-slide ${currentSpecialSlide === 5 ? 'active' : ''}`}><div className="special-card"><img src={`${assetsPath}specials/Mother's Day_page-0002.jpg`} alt="Mother's Day Giveaway" className="special-poster" /><div className="special-overlay"><h3>Mother's Day Giveaway</h3><p>With any beauty service</p><div className="special-valid">Limited time offer</div><button className="btn-special" onClick={openBooking}><i className="fas fa-arrow-right"></i> Book Now</button></div></div></div>
+                <div className={`special-slide ${currentSpecialSlide === 1 ? 'active' : ''}`}><div className="special-card"><img src={`${assetsPath}specials/MidweekGlow.jpeg`} alt="Midweek Glow" className="special-poster" /><div className="special-overlay"><h3>Midweek Glow</h3><p>With any beauty service</p><div className="special-valid">Limited time offer</div><button className="btn-special" onClick={openBooking}><i className="fas fa-arrow-right"></i> Claim Now</button></div></div></div>
+                <div className={`special-slide ${currentSpecialSlide === 2 ? 'active' : ''}`}><div className="special-card"><img src={`${assetsPath}specials/WaxyWednesdays.jpeg`} alt="Waxy Wednesdays" className="special-poster" /><div className="special-overlay"><h3>Waxy Wednesdays</h3><p>With any beauty service</p><div className="special-valid">Limited time offer</div><button className="btn-special" onClick={openBooking}><i className="fas fa-arrow-right"></i> Claim Now</button></div></div></div>
+                <div className={`special-slide ${currentSpecialSlide === 3 ? 'active' : ''}`}><div className="special-card"><img src={`${assetsPath}specials/DadxMiniSpecial.jpeg`} alt="Daddy & Mini" className="special-poster" /><div className="special-overlay"><h3>Daddy & Mini Special</h3><p>With any beauty service</p><div className="special-valid">Limited time offer</div><button className="btn-special" onClick={openBooking}><i className="fas fa-arrow-right"></i> Claim Now</button></div></div></div>
+                <div className={`special-slide ${currentSpecialSlide === 4 ? 'active' : ''}`}><div className="special-card"><img src={`${assetsPath}specials/Mother's Day_page-0001.jpg`} alt="Mother's Day Sale" className="special-poster" /><div className="special-overlay"><h3>Mother's Day Sale</h3><p>With any beauty service</p><div className="special-valid">Limited time offer</div><button className="btn-special" onClick={openBooking}><i className="fas fa-arrow-right"></i> Claim Now</button></div></div></div>
+                <div className={`special-slide ${currentSpecialSlide === 5 ? 'active' : ''}`}><div className="special-card"><img src={`${assetsPath}specials/Mother's Day_page-0002.jpg`} alt="Mother's Day Giveaway" className="special-poster" /><div className="special-overlay"><h3>Mother's Day Giveaway</h3><p>With any beauty service</p><div className="special-valid">Limited time offer</div><button className="btn-special" onClick={openBooking}><i className="fas fa-arrow-right"></i> Claim Now</button></div></div></div>
                 <button className="specials-nav prev" onClick={prevSpecialSlide}><i className="fas fa-chevron-left"></i></button>
                 <button className="specials-nav next" onClick={nextSpecialSlide}><i className="fas fa-chevron-right"></i></button>
               </div>
@@ -357,7 +358,7 @@ const Home = () => {
                   <p style={{ margin: '1.8rem 0' }}>Our foundation is kiddies hair expertise, paired with professional barber services, adult hair and beauty treatments, making Tassel a one-stop destination for parents who value quality and convenience.</p>
                   <p>From gentle kiddies styling to sharp barber cuts, nails, skin and beauty treatments, every detail is designed to deliver a premium experience built on care, comfort and excellence.</p>
                 </div>
-                <button className="btn-primary" onClick={openBooking}><i className="fas fa-calendar-check"></i> Book Your Visit</button>
+                <button className="btn-primary" onClick={() => navigate('/register')}><i className="fas fa-user-plus"></i> Register Today</button>
               </div>
             </div>
           </div>
@@ -458,7 +459,7 @@ const Home = () => {
       <Footer />
 
       {/* FLOATING BOOK BUTTON */}
-      <button className="float-book" onClick={openBooking}><i className="fas fa-calendar-check"></i> Book now</button>
+      <button className="float-book" onClick={() => navigate('/register')}><i className="fas fa-user-plus"></i> Join Now</button>
 
       {/* BOOKING MODAL */}
       {showBookingModal && (

@@ -13,6 +13,8 @@ const Register = () => {
     confirmPassword: '',
     referralCode: ''
   });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -154,10 +156,10 @@ const Register = () => {
             />
           </div>
           
-          <div className="form-group">
+          <div className="form-group password-field">
             <label><i className="fas fa-lock"></i> Password</label>
             <input 
-              type="password" 
+              type={showPassword ? 'text' : 'password'} 
               name="password" 
               value={formData.password} 
               onChange={handleChange} 
@@ -165,18 +167,24 @@ const Register = () => {
               minLength="6"
               placeholder="••••••••"
             />
+            <button type="button" className="password-toggle" onClick={() => setShowPassword((prev) => !prev)}>
+              <i className={showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'}></i>
+            </button>
           </div>
           
-          <div className="form-group">
+          <div className="form-group password-field">
             <label><i className="fas fa-lock"></i> Confirm Password</label>
             <input 
-              type="password" 
+              type={showConfirmPassword ? 'text' : 'password'} 
               name="confirmPassword" 
               value={formData.confirmPassword} 
               onChange={handleChange} 
               required 
               placeholder="••••••••"
             />
+            <button type="button" className="password-toggle" onClick={() => setShowConfirmPassword((prev) => !prev)}>
+              <i className={showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'}></i>
+            </button>
           </div>
           
           <button 

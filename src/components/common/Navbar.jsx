@@ -43,7 +43,11 @@ const Navbar = ({ onBookNow }) => {
 
   const handleBookNow = () => {
     setIsMenuOpen(false);
-    onBookNow();
+    if (user) {
+      onBookNow();
+    } else {
+      navigate('/register');
+    }
   };
 
   return (
@@ -91,7 +95,7 @@ const Navbar = ({ onBookNow }) => {
       </ul>
 
       <button className="nav-btn desktop-book-btn" onClick={handleBookNow}>
-        <i className="fas fa-calendar-check"></i> Book now
+        <i className="fas fa-calendar-check"></i> {user ? 'Book now' : 'Register now'}
       </button>
     </nav>
   );
