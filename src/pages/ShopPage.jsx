@@ -21,7 +21,7 @@ const ShopPage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await api.get('/customer/products');  // Fixed: /customer/products
+        const response = await api.get('/customer/products');
         setProducts(response.data.data || []);
       } catch (error) {
         console.error('Failed to load products:', error);
@@ -53,10 +53,10 @@ const ShopPage = () => {
 
   const handleAddToCart = (product) => {
     addItem({
-      id: product._id, // Fix: use _id from MongoDB
+      id: product._id,
       name: product.name,
       price: product.price,
-      image: product.image,
+      image: product.displayImage || product.image,
       category: product.category
     });
   };
@@ -74,7 +74,6 @@ const ShopPage = () => {
 
     setCheckoutLoading(true);
     try {
-      // STEP 1: Create order in the database FIRST
       const orderResponse = await api.post('/customer/orders', {
         items: items.map((item) => ({
           productId: item.id,
@@ -89,7 +88,6 @@ const ShopPage = () => {
 
       const orderNumber = orderResponse.data?.data?.orderNumber || 'N/A';
 
-      // STEP 2: Build WhatsApp message with order details
       const orderLines = items
         .map((item) => `• ${item.quantity}x ${item.name} @ R${item.price.toFixed(2)} = R${(item.price * item.quantity).toFixed(2)}`)
         .join('\n');
@@ -103,13 +101,8 @@ const ShopPage = () => {
         `*Total:* R${total.toFixed(2)}\n\n` +
         `Please confirm this order and arrange payment/collection.`;
 
-      // STEP 3: Open WhatsApp
       window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
-
-      // STEP 4: Clear cart
       clearCart();
-
-      // STEP 5: Show success message
       alert(`Order ${orderNumber} placed successfully! We'll contact you via WhatsApp to confirm.`);
     } catch (error) {
       console.error('Checkout failed:', error);
@@ -125,21 +118,35 @@ const ShopPage = () => {
     return { text: 'In Stock', class: 'in-stock' };
   };
 
+  // Get the best image to display for a product
+  const getProductImage = (product) => {
+    if (product.displayImage) return product.displayImage;
+    if (product.image) return product.image;
+    if (product.images && product.images.length > 0) return product.images[0];
+    return null;
+  };
+
+  // Placeholder colors based on category
+  const getCategoryColor = (category) => {
+    const colors = {
+      'Hair Care': '#c4a97d',
+      'Nail Care': '#c4968a',
+      "Men's Grooming": '#1a1a18',
+      'Skincare': '#f0e8e2',
+      'Accessories': '#9a8060'
+    };
+    return colors[category] || '#9a8060';
+  };
+
   return (
     <div className="page-content customer-shop-page">
       <div className="page-header">
         <h1>Shop Products</h1>
         <p>Choose from our salon retail selection, then confirm your order via WhatsApp.</p>
-
-        {/* Search */}
         <div className="service-search" style={{ maxWidth: '400px', margin: '1rem auto' }}>
           <i className="fas fa-search"></i>
-          <input
-            type="text"
-            placeholder="Search products..."
-            value={searchTerm}
-            onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
-          />
+          <input type="text" placeholder="Search products..." value={searchTerm}
+            onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }} />
           {searchTerm && (
             <button className="search-clear" onClick={() => setSearchTerm('')}>
               <i className="fas fa-times"></i>
@@ -148,15 +155,11 @@ const ShopPage = () => {
         </div>
       </div>
 
-      {/* Category Filter */}
       {categories.length > 1 && (
         <div className="category-nav">
           {categories.map(cat => (
-            <button
-              key={cat}
-              className={`category-nav-btn ${activeCategory === cat ? 'active' : ''}`}
-              onClick={() => { setActiveCategory(cat); setCurrentPage(1); }}
-            >
+            <button key={cat} className={`category-nav-btn ${activeCategory === cat ? 'active' : ''}`}
+              onClick={() => { setActiveCategory(cat); setCurrentPage(1); }}>
               {cat === 'all' ? 'All Products' : cat}
               <span className="category-count">
                 {cat === 'all' ? products.length : products.filter(p => p.category === cat).length}
@@ -183,17 +186,37 @@ const ShopPage = () => {
               <div className="product-grid-container">
                 {paginatedProducts.map((product) => {
                   const stock = getStockStatus(product.quantity);
+                  const productImage = getProductImage(product);
+                  const categoryColor = getCategoryColor(product.category);
+                  
                   return (
                     <div key={product._id} className="product-card-customer">
                       <div className="product-card-image">
-                        {product.image ? (
-                          <img src={product.image} alt={product.name} />
-                        ) : (
-                          <div className="product-image-placeholder">
-                            <i className="fas fa-box"></i>
-                          </div>
-                        )}
+                        {productImage ? (
+                          <img 
+                            src={productImage} 
+                            alt={product.name}
+                            onError={(e) => {
+                              e.target.style.display = 'none';
+                              e.target.parentNode.querySelector('.product-image-placeholder').style.display = 'flex';
+                            }}
+                          />
+                        ) : null}
+                        <div 
+                          className="product-image-placeholder" 
+                          style={{ 
+                            display: productImage ? 'none' : 'flex',
+                            background: `linear-gradient(135deg, ${categoryColor} 0%, ${categoryColor}dd 100%)`
+                          }}
+                        >
+                          <i className="fas fa-box" style={{ color: 'white', fontSize: '2.5rem', opacity: 0.7 }}></i>
+                        </div>
                         <span className={`stock-badge ${stock.class}`}>{stock.text}</span>
+                        {product.isFeatured && (
+                          <span className="featured-product-badge">
+                            <i className="fas fa-star"></i> Featured
+                          </span>
+                        )}
                       </div>
                       <div className="product-card-body">
                         {product.brand && <span className="product-brand">{product.brand}</span>}
@@ -216,8 +239,6 @@ const ShopPage = () => {
                   );
                 })}
               </div>
-
-              {/* Pagination */}
               {totalPages > 1 && (
                 <div className="pagination">
                   <button className="pagination-btn" onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1}>
@@ -242,7 +263,6 @@ const ShopPage = () => {
             <h2>Your Cart</h2>
             <span>{itemCount} item{itemCount !== 1 ? 's' : ''}</span>
           </div>
-
           {items.length === 0 ? (
             <div className="empty-state small">
               <i className="fas fa-shopping-cart"></i>

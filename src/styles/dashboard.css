@@ -3599,6 +3599,25 @@
     border: 1px solid #fecaca;
 }
 
+/* Featured Product Badge */
+.featured-product-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--gold, #9a8060);
+  color: white;
+  padding: 3px 10px;
+  border-radius: var(--radius-full, 20px);
+  font-size: 10px;
+  font-weight: var(--weight-semibold, 600);
+  z-index: 2;
+}
+
+.featured-product-badge i {
+  margin-right: 3px;
+  font-size: 8px;
+}
+
 /* Profile Form */
 .profile-form .form-group {
     margin-bottom: var(--spacing-lg);

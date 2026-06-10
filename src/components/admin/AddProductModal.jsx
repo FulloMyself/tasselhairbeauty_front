@@ -10,7 +10,11 @@ const AddProductModal = ({ onClose, onSuccess }) => {
     quantity: '',
     brand: '',
     sku: '',
-    isActive: true
+    image: '',
+    additionalImages: '',
+    isActive: true,
+    isFeatured: false,
+    tags: ''
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -28,7 +32,24 @@ const AddProductModal = ({ onClose, onSuccess }) => {
     setLoading(true);
 
     try {
-      await api.post('/admin/products', formData);
+      const payload = {
+        name: formData.name,
+        category: formData.category,
+        description: formData.description,
+        price: parseFloat(formData.price),
+        quantity: parseInt(formData.quantity),
+        brand: formData.brand,
+        sku: formData.sku,
+        image: formData.image || null,
+        images: formData.additionalImages 
+          ? formData.additionalImages.split('\n').map(url => url.trim()).filter(Boolean)
+          : [],
+        isActive: formData.isActive,
+        isFeatured: formData.isFeatured,
+        tags: formData.tags ? formData.tags.split(',').map(t => t.trim()).filter(Boolean) : []
+      };
+
+      await api.post('/admin/products', payload);
       onSuccess?.();
       onClose();
     } catch (err) {
@@ -50,11 +71,13 @@ const AddProductModal = ({ onClose, onSuccess }) => {
         
         <form onSubmit={handleSubmit} className="admin-form">
           <div className="admin-modal-body">
+            {/* Product Name */}
             <div className="form-group">
               <label><i className="fas fa-tag"></i> Product Name *</label>
               <input type="text" name="name" value={formData.name} onChange={handleChange} required placeholder="e.g., Argan Oil Serum" />
             </div>
             
+            {/* Category & Brand */}
             <div className="form-row">
               <div className="form-group">
                 <label><i className="fas fa-list"></i> Category *</label>
@@ -69,11 +92,13 @@ const AddProductModal = ({ onClose, onSuccess }) => {
               </div>
             </div>
             
+            {/* Description */}
             <div className="form-group">
               <label><i className="fas fa-pen"></i> Description *</label>
               <textarea name="description" value={formData.description} onChange={handleChange} required rows="3" placeholder="Describe the product..." />
             </div>
             
+            {/* Price & Quantity */}
             <div className="form-row">
               <div className="form-group">
                 <label><i className="fas fa-money-bill"></i> Price (R) *</label>
@@ -85,6 +110,7 @@ const AddProductModal = ({ onClose, onSuccess }) => {
               </div>
             </div>
             
+            {/* SKU & Active */}
             <div className="form-row">
               <div className="form-group">
                 <label><i className="fas fa-barcode"></i> SKU</label>
@@ -96,6 +122,64 @@ const AddProductModal = ({ onClose, onSuccess }) => {
                   <input type="checkbox" name="isActive" checked={formData.isActive} onChange={handleChange} />
                   <span>Product is available for sale</span>
                 </label>
+              </div>
+            </div>
+
+            {/* Main Image URL */}
+            <div className="form-group">
+              <label><i className="fas fa-image"></i> Main Image URL</label>
+              <input 
+                type="text" 
+                name="image" 
+                value={formData.image} 
+                onChange={handleChange} 
+                placeholder="/assets/images/product-image.jpg or full URL" 
+              />
+              {formData.image && (
+                <div style={{ marginTop: '8px' }}>
+                  <img 
+                    src={formData.image} 
+                    alt="Product preview" 
+                    style={{ 
+                      width: '100%', 
+                      maxHeight: '200px', 
+                      objectFit: 'cover', 
+                      borderRadius: '8px',
+                      border: '1px solid var(--light)'
+                    }}
+                    onError={(e) => { e.target.style.display = 'none'; }}
+                  />
+                </div>
+              )}
+              <small style={{ color: 'var(--muted)', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>
+                Enter a URL for the product image. Use images from your assets folder.
+              </small>
+            </div>
+
+            {/* Additional Images */}
+            <div className="form-group">
+              <label><i className="fas fa-images"></i> Additional Image URLs (one per line)</label>
+              <textarea 
+                name="additionalImages" 
+                value={formData.additionalImages} 
+                onChange={handleChange} 
+                rows="2"
+                placeholder="/assets/images/image1.jpg&#10;/assets/images/image2.jpg" 
+              />
+            </div>
+
+            {/* Featured & Tags */}
+            <div className="form-row">
+              <div className="form-group">
+                <label><i className="fas fa-star"></i> Featured Product</label>
+                <label className="checkbox-label" style={{ marginTop: '8px' }}>
+                  <input type="checkbox" name="isFeatured" checked={formData.isFeatured} onChange={handleChange} />
+                  <span>Show on homepage</span>
+                </label>
+              </div>
+              <div className="form-group">
+                <label><i className="fas fa-tags"></i> Tags (comma-separated)</label>
+                <input type="text" name="tags" value={formData.tags} onChange={handleChange} placeholder="e.g., popular, new, sale" />
               </div>
             </div>
           </div>
