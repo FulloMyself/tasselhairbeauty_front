@@ -7,9 +7,12 @@ yarn.lock
 .env
 .env.local
 .env.*.local
+.env.example
+.env.production
 
 # Build outputs
 build/
+dist/
 
 # IDE
 .vscode/
