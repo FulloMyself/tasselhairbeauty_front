@@ -18,7 +18,7 @@ const Home = () => {
   const [showTeamModal, setShowTeamModal] = useState(false);
   const [selectedTeamMember, setSelectedTeamMember] = useState(null);
   const navigate = useNavigate();
-  
+
   // Use Vite's BASE_URL which works in both dev and production
   const basePath = import.meta.env.BASE_URL || '/';
   const assetsPath = `${basePath}assets/`;
@@ -149,6 +149,20 @@ const Home = () => {
     closeBooking();
   };
 
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchFeaturedProducts = async () => {
+      try {
+        const response = await api.get('/products/featured');
+        setFeaturedProducts(response.data.data || []);
+      } catch (error) {
+        console.log('Using default featured products');
+      }
+    };
+    fetchFeaturedProducts();
+  }, []);
+
   return (
     <div className="app">
       <Navbar onBookNow={openBooking} />
@@ -238,6 +252,94 @@ const Home = () => {
               <a href={`${assetsPath}pricelists/Tassel_Adult_Hair_Pricelist.pdf`} className="service-card fade" target="_blank" rel="noopener noreferrer" download><img src={`${assetsPath}images/compressed_AdultHair.jpeg`} alt="Woman's hair styled" className="service-img" /><h3 className="service-name">Adult Hair</h3><span className="service-link">Download Price List <i className="fas fa-download"></i></span></a>
               <a href={`${assetsPath}pricelists/Tassel_Full_Services_PriceList.pdf`} className="service-card fade" target="_blank" rel="noopener noreferrer" download><img src={`${assetsPath}images/compressed_TasselNails.jpg`} alt="Tassel Luxury Beauty Studio" className="service-img" /><h3 className="service-name">Nails</h3><span className="service-link">Download Price List <i className="fas fa-download"></i></span></a>
               <a href={`${assetsPath}pricelists/Tassel_Services_PriceList.pdf`} className="service-card fade" target="_blank" rel="noopener noreferrer" download><img src={`${assetsPath}images/TasselProducts.jpeg`} alt="Facial treatment" className="service-img" /><h3 className="service-name">Skin & Beauty</h3><span className="service-link">Download Price List <i className="fas fa-download"></i></span></a>
+            </div>
+          </div>
+        </section>
+
+        {/* FEATURED PRODUCTS SECTION */}
+        <section id="featured-products" className="section-wrap" style={{ background: 'var(--cream)' }}>
+          <div className="container">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '20px', marginBottom: '40px' }}>
+              <div>
+                <p className="label fade">Shop Our Products</p>
+                <h2 className="fade" style={{ marginBottom: 0 }}>Featured Products</h2>
+              </div>
+              <Link to="/shop" className="btn-primary">
+                <i className="fas fa-shopping-cart"></i> View All Products
+              </Link>
+            </div>
+            <div className="featured-products-grid">
+              {/* Product 1 */}
+              <div className="featured-product-card fade">
+                <div className="featured-product-image">
+                  <img src={`${assetsPath}products/Tassel_Beard_&_Hair_Oil.jpg`} alt="Beard & Hair Oil" />
+                </div>
+                <div className="featured-product-info">
+                  <span className="product-brand">Tassel Professional</span>
+                  <h3>Beard & Hair Oil</h3>
+                  <p className="product-desc">Premium oil for healthy beard and hair growth</p>
+                  <div className="product-price-row">
+                    <span className="product-price">R199.00</span>
+                  </div>
+                  <Link to="/shop" className="btn btn-outline btn-sm" style={{ width: '100%', textAlign: 'center' }}>
+                    <i className="fas fa-shopping-cart"></i> Shop Now
+                  </Link>
+                </div>
+              </div>
+
+              {/* Product 2 */}
+              <div className="featured-product-card fade">
+                <div className="featured-product-image">
+                  <img src={`${assetsPath}products/Esse_Hydro_Moisturiser.jpg`} alt="Esse Hydro Moisturiser" />
+                </div>
+                <div className="featured-product-info">
+                  <span className="product-brand">Esse</span>
+                  <h3>Hydro Moisturiser</h3>
+                  <p className="product-desc">Probiotic hydrating moisturiser for radiant skin</p>
+                  <div className="product-price-row">
+                    <span className="product-price">R599.00</span>
+                  </div>
+                  <Link to="/shop" className="btn btn-outline btn-sm" style={{ width: '100%', textAlign: 'center' }}>
+                    <i className="fas fa-shopping-cart"></i> Shop Now
+                  </Link>
+                </div>
+              </div>
+
+              {/* Product 3 */}
+              <div className="featured-product-card fade">
+                <div className="featured-product-image">
+                  <img src={`${assetsPath}products/Tassel_SPF50.jpg`} alt="Tassel SPF50" />
+                </div>
+                <div className="featured-product-info">
+                  <span className="product-brand">Tassel Skin</span>
+                  <h3>SPF 50 Sunscreen</h3>
+                  <p className="product-desc">High protection sunscreen for daily use</p>
+                  <div className="product-price-row">
+                    <span className="product-price">R249.00</span>
+                  </div>
+                  <Link to="/shop" className="btn btn-outline btn-sm" style={{ width: '100%', textAlign: 'center' }}>
+                    <i className="fas fa-shopping-cart"></i> Shop Now
+                  </Link>
+                </div>
+              </div>
+
+              {/* Product 4 */}
+              <div className="featured-product-card fade">
+                <div className="featured-product-image">
+                  <img src={`${assetsPath}products/ResaK_Collagen.jpg`} alt="ResaK Collagen" />
+                </div>
+                <div className="featured-product-info">
+                  <span className="product-brand">Resa-K</span>
+                  <h3>Collagen Treatment</h3>
+                  <p className="product-desc">Advanced collagen for hair restoration</p>
+                  <div className="product-price-row">
+                    <span className="product-price">R899.00</span>
+                  </div>
+                  <Link to="/shop" className="btn btn-outline btn-sm" style={{ width: '100%', textAlign: 'center' }}>
+                    <i className="fas fa-shopping-cart"></i> Shop Now
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </section>
