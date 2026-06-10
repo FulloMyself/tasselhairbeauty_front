@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
 
@@ -101,7 +101,7 @@ const BookingPage = () => {
         window.scrollTo(0, 0);
     };
 
-    const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER;
+    const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || '27729605153';
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -119,7 +119,6 @@ const BookingPage = () => {
         setSubmitting(true);
 
         try {
-            // STEP 1: Create booking in database
             const response = await api.post('/customer/bookings', {
                 services: selectedServices,
                 ...formData
@@ -127,7 +126,6 @@ const BookingPage = () => {
 
             const bookingData = response.data.data;
 
-            // STEP 2: Build WhatsApp message
             const serviceLines = selectedServices
                 .map(s => `• ${s.quantity}x ${s.name} (${s.duration} mins) @ R${s.price.toFixed(2)} = R${(s.price * s.quantity).toFixed(2)}`)
                 .join('\n');
@@ -150,10 +148,8 @@ const BookingPage = () => {
                 (formData.specialRequests ? `*Special Requests:* ${formData.specialRequests}\n\n` : '') +
                 `Please confirm this booking via WhatsApp.`;
 
-            // STEP 3: Open WhatsApp
             window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
 
-            // STEP 4: Show success and navigate
             alert(`Booking #${bookingData.bookingNumber} created successfully!\n\nWe'll confirm your appointment via WhatsApp.\n\nDeposit Required: R${depositAmount}`);
             navigate('/dashboard');
         } catch (error) {
@@ -196,6 +192,19 @@ const BookingPage = () => {
 
     return (
         <div className="booking-page">
+            {/* Back Navigation */}
+            <div className="shop-back-navigation">
+                <button className="back-nav-btn" onClick={() => navigate(-1)}>
+                    <i className="fas fa-arrow-left"></i> Back
+                </button>
+                <Link to="/dashboard" className="back-nav-btn">
+                    <i className="fas fa-home"></i> Dashboard
+                </Link>
+                <Link to="/shop" className="back-nav-btn">
+                    <i className="fas fa-shopping-cart"></i> Shop Products
+                </Link>
+            </div>
+
             <div className="booking-page-header">
                 <h1>Book an Appointment</h1>
                 <p>Select your services and preferred date/time</p>

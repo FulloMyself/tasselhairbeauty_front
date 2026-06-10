@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import api from '../utils/api';
@@ -118,7 +118,6 @@ const ShopPage = () => {
     return { text: 'In Stock', class: 'in-stock' };
   };
 
-  // Get the best image to display for a product
   const getProductImage = (product) => {
     if (product.displayImage) return product.displayImage;
     if (product.image) return product.image;
@@ -126,7 +125,6 @@ const ShopPage = () => {
     return null;
   };
 
-  // Placeholder colors based on category
   const getCategoryColor = (category) => {
     const colors = {
       'Hair Care': '#c4a97d',
@@ -140,6 +138,19 @@ const ShopPage = () => {
 
   return (
     <div className="page-content customer-shop-page">
+      {/* Back Navigation */}
+      <div className="shop-back-navigation">
+        <button className="back-nav-btn" onClick={() => navigate(-1)}>
+          <i className="fas fa-arrow-left"></i> Back
+        </button>
+        <Link to="/dashboard" className="back-nav-btn">
+          <i className="fas fa-home"></i> Dashboard
+        </Link>
+        <Link to="/booking" className="back-nav-btn">
+          <i className="fas fa-calendar-check"></i> Book Appointment
+        </Link>
+      </div>
+
       <div className="page-header">
         <h1>Shop Products</h1>
         <p>Choose from our salon retail selection, then confirm your order via WhatsApp.</p>

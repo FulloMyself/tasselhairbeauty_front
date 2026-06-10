@@ -3618,6 +3618,46 @@
   font-size: 8px;
 }
 
+.shop-back-navigation {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-xl);
+  flex-wrap: wrap;
+}
+
+.back-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--white);
+  border: 1px solid var(--light);
+  border-radius: 30px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-family: var(--font-sans);
+}
+
+.back-nav-btn:hover {
+  background: var(--gold);
+  color: white;
+  border-color: var(--gold);
+  transform: translateX(-3px);
+}
+
+.back-nav-btn i {
+  font-size: 0.9rem;
+  color: var(--gold);
+}
+
+.back-nav-btn:hover i {
+  color: white;
+}
+
 /* Profile Form */
 .profile-form .form-group {
     margin-bottom: var(--spacing-lg);
