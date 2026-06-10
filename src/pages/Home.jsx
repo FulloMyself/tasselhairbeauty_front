@@ -155,9 +155,12 @@ const Home = () => {
     const fetchFeaturedProducts = async () => {
       try {
         const response = await api.get('/products/featured');
-        setFeaturedProducts(response.data.data || []);
+        if (response.data.data && response.data.data.length > 0) {
+          setFeaturedProducts(response.data.data);
+        }
       } catch (error) {
         console.log('Using default featured products');
+        // Fallback to static products
       }
     };
     fetchFeaturedProducts();
