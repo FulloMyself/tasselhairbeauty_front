@@ -56,6 +56,15 @@ const Register = () => {
         password: formData.password,
         referralCode: formData.referralCode?.trim() || undefined
       });
+
+      // Show success with WhatsApp confirmation
+      alert(
+        `🎉 Registration Successful!\n\n` +
+        `Welcome to Tassel Hair & Beauty Studio, ${formData.firstName}!\n\n` +
+        (formData.phone ? `📱 A WhatsApp confirmation will be sent to ${formData.phone}\n\n` : '') +
+        `You can now sign in and start booking appointments, shopping products, and earning loyalty rewards!`
+      );
+      
       navigate('/login');
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed');
@@ -135,7 +144,7 @@ const Register = () => {
           </div>
           
           <div className="form-group">
-            <label><i className="fas fa-phone"></i> Phone (optional)</label>
+            <label><i className="fas fa-phone"></i> Phone (for WhatsApp confirmations)</label>
             <input 
               type="tel" 
               name="phone" 
@@ -143,6 +152,9 @@ const Register = () => {
               onChange={handleChange} 
               placeholder="071 234 5678"
             />
+            <small style={{ color: 'var(--muted)', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>
+              We'll send you a WhatsApp confirmation when you register
+            </small>
           </div>
 
           <div className="form-group">
