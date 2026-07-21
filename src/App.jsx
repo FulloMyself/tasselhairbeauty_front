@@ -24,6 +24,7 @@ import BookingPage from './pages/BookingPage';
 // Components
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import LoyaltyDashboard from './components/customer/LoyaltyDashboard';
+import InstallPWA from './components/common/InstallPWA';
 
 // Styles - Import in correct order
 import './styles/variables.css';
@@ -190,6 +191,7 @@ function App() {
               {/* 404 Catch-all */}
               <Route path="*" element={<NotFound />} />
             </Routes>
+            <InstallPWA /> {/* Add this line */}
           </UserProvider>
         </CartProvider>
       </AuthProvider>

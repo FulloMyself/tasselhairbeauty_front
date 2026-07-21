@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
@@ -7,6 +7,62 @@ const Navbar = ({ onBookNow }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
+  // PWA Install state
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [isInstallable, setIsInstallable] = useState(false);
+  const [isInstalled, setIsInstalled] = useState(false);
+
+  useEffect(() => {
+    // Check if already installed
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      setIsInstalled(true);
+      return;
+    }
+
+    const handleBeforeInstallPrompt = (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setIsInstallable(true);
+    };
+
+    const handleAppInstalled = () => {
+      setIsInstalled(true);
+      setIsInstallable(false);
+      setDeferredPrompt(null);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    window.addEventListener('appinstalled', handleAppInstalled);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener('appinstalled', handleAppInstalled);
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    setIsMenuOpen(false);
+    
+    if (!deferredPrompt) {
+      alert(
+        'To install the app:\n\n' +
+        '📱 Android: Tap menu (⋮) → "Install app"\n' +
+        '📱 iPhone: Tap Share → "Add to Home Screen"\n' +
+        '💻 Desktop: Click install icon in address bar'
+      );
+      return;
+    }
+
+    try {
+      await deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log(`Install prompt outcome: ${outcome}`);
+      setDeferredPrompt(null);
+    } catch (error) {
+      console.error('Install failed:', error);
+    }
+  };
 
   const handleLogout = () => {
     logout();
@@ -18,13 +74,11 @@ const Navbar = ({ onBookNow }) => {
     setIsMenuOpen(false);
   };
 
-  // Handle anchor link navigation
   const handleAnchorClick = (e, sectionId) => {
     e.preventDefault();
     setIsMenuOpen(false);
     
     if (location.pathname !== '/') {
-      // Navigate to home first, then scroll to section
       navigate('/');
       setTimeout(() => {
         const element = document.querySelector(sectionId);
@@ -33,7 +87,6 @@ const Navbar = ({ onBookNow }) => {
         }
       }, 100);
     } else {
-      // Already on home page, just scroll
       const element = document.querySelector(sectionId);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
@@ -79,6 +132,16 @@ const Navbar = ({ onBookNow }) => {
         <li><a href="/#brands" onClick={(e) => handleAnchorClick(e, '#brands')}>Brands</a></li>
         <li><a href="/#location" onClick={(e) => handleAnchorClick(e, '#location')}>Find us</a></li>
         <li><a href="./assets/pricelists/Tassel_Full_Services_PriceList.pdf" target="_blank" rel="noopener noreferrer" onClick={handleLinkClick}>Prices</a></li>
+        
+        {/* Install App Button - only shows when installable and not installed */}
+        {isInstallable && !isInstalled && (
+          <li>
+            <button onClick={handleInstallClick} className="nav-install-btn">
+              <i className="fas fa-download"></i> Install App
+            </button>
+          </li>
+        )}
+        
         {user ? (
           <>
             <li><Link to="/dashboard" onClick={handleLinkClick}>Dashboard</Link></li>

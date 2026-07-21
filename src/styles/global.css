@@ -493,6 +493,50 @@ footer {
   display: inline-flex;
 }
 
+/* ========== NAV INSTALL APP BUTTON ========== */
+.nav-install-btn {
+  background: linear-gradient(135deg, var(--gold, #9a8060), var(--gold-dark, #7a6050));
+  color: white !important;
+  border: none !important;
+  padding: 8px 16px;
+  border-radius: 25px;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  animation: subtlePulse 2s infinite;
+  text-decoration: none !important;
+  border-bottom: none !important;
+}
+
+.nav-install-btn:hover {
+  background: linear-gradient(135deg, var(--gold-dark, #7a6050), var(--gold, #9a8060));
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(154, 128, 96, 0.3);
+  color: white !important;
+  border-bottom: none !important;
+}
+
+.nav-install-btn i {
+  font-size: 0.7rem;
+  margin-right: 4px;
+}
+
+@keyframes subtlePulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(154, 128, 96, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(154, 128, 96, 0);
+  }
+}
+
 /* ========== MOBILE RESPONSIVE ========== */
 @media (max-width: 1000px) {
   .hamburger {
@@ -518,12 +562,12 @@ footer {
     box-shadow: -5px 0 30px rgba(0, 0, 0, 0.15);
     z-index: 1000;
     overflow-y: auto;
-    display: flex;  /* Force display flex */
-    margin: 0;      /* Remove any margin */
+    display: flex;
+    margin: 0;
   }
 
   .nav-links.show {
-    right: 0 !important;  /* Force it to show */
+    right: 0 !important;
     display: flex !important;
   }
 
@@ -546,6 +590,18 @@ footer {
     border-bottom: none;
   }
 
+  /* Install button in mobile menu */
+  .nav-install-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 12px 16px;
+    margin-top: 4px;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    border-radius: 30px;
+  }
+
   /* Floating book button for mobile */
   .float-book {
     display: flex;
@@ -566,7 +622,7 @@ footer {
   }
 
   .nav-links {
-    width: 100vw;  /* Full width on very small screens */
+    width: 100vw;
     right: -100vw;
   }
 
@@ -578,5 +634,10 @@ footer {
   .nav-links button {
     font-size: 0.9rem;
     padding: 15px 0;
+  }
+
+  .nav-install-btn {
+    font-size: 0.9rem;
+    padding: 14px 16px;
   }
 }
