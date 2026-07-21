@@ -3,11 +3,14 @@
 
 <head>
   <meta charset="UTF-8" />
+  
+  <!-- Primary icon - SVG for sharp display at any size -->
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/icon.svg" />
+  <!-- Fallback PNG icons for older browsers -->
   <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/web-app-manifest-512x512.png" />
   <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/web-app-manifest-192x192.png" />
-  <link rel="icon" type="image/png" sizes="96x96" href="/assets/icons/favicon-96x96.png" />
-  <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg" />
   <link rel="shortcut icon" href="/assets/icons/favicon.ico" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Tassel Hair & Beauty Studio - Online Booking and Shop" />
   <meta name="theme-color" content="#9a8060" />
@@ -16,9 +19,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Tassel Studio">
-  <link rel="apple-touch-icon" sizes="512x512" href="/assets/icons/web-app-manifest-512x512.png">
-  <link rel="apple-touch-icon" sizes="192x192" href="/assets/icons/web-app-manifest-192x192.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+  <!-- Apple touch icon - SVG for sharpest display -->
+  <link rel="apple-touch-icon" href="/assets/icons/icon.svg">
   <link rel="manifest" href="/manifest.json">
 
   <!-- Fonts -->
@@ -51,12 +53,10 @@
 
   <!-- PWA Install Detection -->
   <script>
-    // Track when the app is installed
     window.addEventListener('appinstalled', function () {
       console.log('✅ Tassel Studio PWA installed!');
     });
 
-    // Track when the app is launched from home screen
     if (window.matchMedia('(display-mode: standalone)').matches) {
       console.log('📱 Running as installed PWA');
       document.documentElement.classList.add('pwa-standalone');
@@ -64,7 +64,6 @@
   </script>
 
   <style>
-    /* PWA standalone mode adjustments */
     .pwa-standalone {
       padding-top: env(safe-area-inset-top);
       padding-bottom: env(safe-area-inset-bottom);
