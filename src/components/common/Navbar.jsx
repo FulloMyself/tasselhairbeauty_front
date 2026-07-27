@@ -7,13 +7,13 @@ const Navbar = ({ onBookNow }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
+
   // PWA Install state
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isInstallable, setIsInstallable] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
-  const [showIOSGuide, setShowIOSGuide] = useState(false);
+  const [showIOSTooltip, setShowIOSTooltip] = useState(false);
 
   useEffect(() => {
     // Detect iOS
@@ -43,6 +43,7 @@ const Navbar = ({ onBookNow }) => {
       setIsInstalled(true);
       setIsInstallable(false);
       setDeferredPrompt(null);
+      setShowIOSTooltip(false);
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
@@ -56,13 +57,15 @@ const Navbar = ({ onBookNow }) => {
 
   const handleInstallClick = async () => {
     setIsMenuOpen(false);
-    
-    // iOS: Show instructions modal
+
+    // iOS: Show tooltip pointing to Share button
     if (isIOS) {
-      setShowIOSGuide(true);
+      setShowIOSTooltip(true);
+      // Auto-dismiss after 6 seconds
+      setTimeout(() => setShowIOSTooltip(false), 6000);
       return;
     }
-    
+
     // Android/Desktop: Use native prompt
     if (!deferredPrompt) {
       alert(
@@ -96,7 +99,7 @@ const Navbar = ({ onBookNow }) => {
   const handleAnchorClick = (e, sectionId) => {
     e.preventDefault();
     setIsMenuOpen(false);
-    
+
     if (location.pathname !== '/') {
       navigate('/');
       setTimeout(() => {
@@ -131,7 +134,7 @@ const Navbar = ({ onBookNow }) => {
           </Link>
         </div>
 
-        <button 
+        <button
           className={`hamburger ${isMenuOpen ? 'active' : ''}`}
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle menu"
@@ -152,7 +155,7 @@ const Navbar = ({ onBookNow }) => {
           <li><a href="/#brands" onClick={(e) => handleAnchorClick(e, '#brands')}>Brands</a></li>
           <li><a href="/#location" onClick={(e) => handleAnchorClick(e, '#location')}>Find us</a></li>
           <li><a href="./assets/pricelists/Tassel_Full_Services_PriceList.pdf" target="_blank" rel="noopener noreferrer" onClick={handleLinkClick}>Prices</a></li>
-          
+
           {/* Install App Button - shows for both iOS and Android */}
           {isInstallable && !isInstalled && (
             <li>
@@ -161,7 +164,7 @@ const Navbar = ({ onBookNow }) => {
               </button>
             </li>
           )}
-          
+
           {user ? (
             <>
               <li><Link to="/dashboard" onClick={handleLinkClick}>Dashboard</Link></li>
@@ -182,61 +185,26 @@ const Navbar = ({ onBookNow }) => {
         </button>
       </nav>
 
-      {/* iOS Install Guide Modal */}
-      {showIOSGuide && (
-        <div className="ios-install-overlay" onClick={() => setShowIOSGuide(false)}>
-          <div className="ios-install-modal" onClick={(e) => e.stopPropagation()}>
-            <button className="ios-modal-close" onClick={() => setShowIOSGuide(false)}>
+      {/* iOS Install Tooltip - Simple overlay pointing to Share button */}
+      {showIOSTooltip && (
+        <div className="ios-install-overlay" onClick={() => setShowIOSTooltip(false)}>
+          <div className="ios-tooltip">
+            <div className="ios-tooltip-arrow"></div>
+            <div className="ios-tooltip-content">
+              <div className="ios-tooltip-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <rect x="2" y="4" width="20" height="16" rx="3" fill="#007AFF" />
+                  <path d="M12 2V15M12 2L8 6M12 2L16 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+              <div className="ios-tooltip-text">
+                <strong>Tap the Share button</strong>
+                <span>then "Add to Home Screen"</span>
+              </div>
+            </div>
+            <button className="ios-tooltip-close" onClick={() => setShowIOSTooltip(false)}>
               <i className="fas fa-times"></i>
             </button>
-            
-            <div className="ios-install-content">
-              <div className="ios-install-icon">
-                <img src="/assets/icons/web-app-manifest-192x192.png" alt="Tassel Studio" />
-              </div>
-              <h2>Install Tassel Studio</h2>
-              <p>Add our app to your home screen for quick access</p>
-              
-              <div className="ios-steps">
-                <div className="ios-step">
-                  <div className="step-number">1</div>
-                  <div className="step-content">
-                    <p>Tap the <strong>Share</strong> button</p>
-                    <div className="step-icon">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <rect x="2" y="4" width="20" height="16" rx="3" fill="#007AFF"/>
-                        <path d="M12 2V15M12 2L8 6M12 2L16 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="ios-step">
-                  <div className="step-number">2</div>
-                  <div className="step-content">
-                    <p>Scroll and tap <strong>Add to Home Screen</strong></p>
-                    <div className="step-icon">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <rect x="4" y="3" width="16" height="18" rx="3" fill="#007AFF"/>
-                        <path d="M12 8V16M8 12H16" stroke="white" stroke-width="2" stroke-linecap="round"/>
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="ios-step">
-                  <div className="step-number">3</div>
-                  <div className="step-content">
-                    <p>Tap <strong>Add</strong> in the top right</p>
-                    <p className="step-hint">The app will appear on your home screen</p>
-                  </div>
-                </div>
-              </div>
-              
-              <button className="ios-got-it-btn" onClick={() => setShowIOSGuide(false)}>
-                Got it!
-              </button>
-            </div>
           </div>
         </div>
       )}

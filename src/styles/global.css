@@ -529,9 +529,12 @@ footer {
 }
 
 @keyframes subtlePulse {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 0 0 rgba(154, 128, 96, 0.4);
   }
+
   50% {
     box-shadow: 0 0 0 8px rgba(154, 128, 96, 0);
   }
@@ -642,181 +645,139 @@ footer {
   }
 }
 
-/* ========== iOS INSTALL GUIDE MODAL ========== */
+/* ========== iOS INSTALL TOOLTIP ========== */
 .ios-install-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
   z-index: 2000;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
   animation: fadeIn 0.3s ease;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
-.ios-install-modal {
+.ios-tooltip {
+  position: fixed;
+  top: 12px;
+  right: 16px;
   background: white;
-  border-radius: 24px 24px 0 0;
-  width: 100%;
-  max-width: 500px;
-  max-height: 85vh;
-  overflow-y: auto;
-  position: relative;
-  animation: slideUpIOS 0.4s ease;
-  padding: 30px 24px 40px;
+  border-radius: 16px;
+  padding: 16px 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  z-index: 2001;
+  max-width: 280px;
+  animation: bounceIn 0.5s ease;
 }
 
-@keyframes slideUpIOS {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
+@keyframes bounceIn {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+
+  50% {
+    transform: translateY(5px);
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
-.ios-modal-close {
+.ios-tooltip-arrow {
   position: absolute;
-  top: 15px;
-  right: 20px;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: var(--soft, #f0e8e2);
-  border: none;
-  cursor: pointer;
+  top: -8px;
+  right: 30px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid white;
+}
+
+.ios-tooltip-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ios-tooltip-icon {
+  width: 44px;
+  height: 44px;
+  background: rgba(0, 122, 255, 0.1);
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--muted, #8a7e78);
-  font-size: 1rem;
-  transition: all 0.3s ease;
-}
-
-.ios-modal-close:hover {
-  background: var(--error, #ef4444);
-  color: white;
-}
-
-.ios-install-content {
-  text-align: center;
-}
-
-.ios-install-icon {
-  width: 80px;
-  height: 80px;
-  margin: 0 auto 16px;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.ios-install-icon img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.ios-install-content h2 {
-  font-family: var(--font-serif, 'Cormorant Garamond', serif);
-  font-size: 1.5rem;
-  margin-bottom: 8px;
-  color: var(--deep, #1a1a18);
-}
-
-.ios-install-content > p {
-  color: var(--muted, #8a7e78);
-  margin-bottom: 30px;
-  font-size: 0.95rem;
-}
-
-.ios-steps {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  margin-bottom: 30px;
-  text-align: left;
-}
-
-.ios-step {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-}
-
-.step-number {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: var(--gold, #9a8060);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 0.9rem;
   flex-shrink: 0;
 }
 
-.step-content {
+.ios-tooltip-text {
   flex: 1;
 }
 
-.step-content p {
-  margin: 0 0 4px;
-  color: var(--text, #3a3530);
+.ios-tooltip-text strong {
+  display: block;
   font-size: 0.95rem;
+  color: var(--deep, #1a1a18);
+  margin-bottom: 2px;
 }
 
-.step-content strong {
-  color: var(--gold, #9a8060);
-}
-
-.step-icon {
-  display: inline-flex;
-  align-items: center;
-  margin-top: 8px;
-  padding: 8px 12px;
-  background: var(--soft, #f0e8e2);
-  border-radius: 10px;
-}
-
-.step-hint {
+.ios-tooltip-text span {
   font-size: 0.8rem;
   color: var(--muted, #8a7e78);
-  font-style: italic;
 }
 
-.ios-got-it-btn {
-  width: 100%;
-  padding: 14px;
-  background: var(--gold, #9a8060);
+.ios-tooltip-close {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--muted, #8a7e78);
   color: white;
   border: none;
-  border-radius: 30px;
-  font-size: 1rem;
-  font-weight: 600;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
   transition: background 0.3s ease;
 }
 
-.ios-got-it-btn:hover {
-  background: var(--gold-dark, #7a6050);
+.ios-tooltip-close:hover {
+  background: var(--error, #ef4444);
 }
 
-/* Responsive */
-@media (max-width: 480px) {
-  .ios-install-modal {
-    padding: 24px 20px 32px;
-    border-radius: 20px 20px 0 0;
+/* Pulse the install button to draw attention */
+@media (display-mode: browser) {
+  .nav-install-btn {
+    animation: subtlePulse 2s infinite, glowPulse 3s infinite;
   }
-  
-  .ios-install-content h2 {
-    font-size: 1.3rem;
+}
+
+@keyframes glowPulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgba(154, 128, 96, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 20px rgba(154, 128, 96, 0.6);
   }
 }
