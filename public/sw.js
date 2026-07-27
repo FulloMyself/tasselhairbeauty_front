@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tassel-studio-v2';
+const CACHE_NAME = 'tassel-studio-v3';
 
 // Assets to cache for offline use - USE ACTUAL FILE NAMES
 const urlsToCache = [
@@ -44,8 +44,8 @@ self.addEventListener('activate', (event) => {
 // Fetch strategy: Network first, fall back to cache
 self.addEventListener('fetch', (event) => {
   // Skip API calls and chrome extensions
-  if (event.request.url.includes('/api/') || 
-      event.request.url.startsWith('chrome-extension://')) {
+  if (event.request.url.includes('/api/') ||
+    event.request.url.startsWith('chrome-extension://')) {
     return;
   }
 
@@ -115,13 +115,11 @@ self.addEventListener('notificationclick', (event) => {
     const urlToOpen = event.notification.data.url || '/';
     event.waitUntil(
       clients.matchAll({ type: 'window' }).then((clientList) => {
-        // If a window is already open, focus it
         for (const client of clientList) {
           if (client.url.includes(self.location.origin) && 'focus' in client) {
             return client.focus();
           }
         }
-        // Otherwise open a new window
         return clients.openWindow(urlToOpen);
       })
     );

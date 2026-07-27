@@ -7,6 +7,17 @@
   "background_color": "#1a1a18",
   "theme_color": "#9a8060",
   "orientation": "portrait-primary",
+  "id": "/",
+  "scope": "/",
+  "lang": "en-ZA",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "categories": [
+    "beauty",
+    "lifestyle",
+    "health",
+    "shopping"
+  ],
   "icons": [
     {
       "src": "/assets/icons/favicon-96x96.png",
@@ -32,9 +43,21 @@
       "purpose": "any"
     }
   ],
-  "categories": ["beauty", "lifestyle", "health"],
-  "lang": "en-ZA",
-  "dir": "ltr",
-  "scope": "/",
-  "prefer_related_applications": false
+  "screenshots": [
+    {
+      "src": "/assets/screenshots/home.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Home screen of Tassel Studio"
+    }
+  ],
+  "related_applications": [],
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ]
 }
