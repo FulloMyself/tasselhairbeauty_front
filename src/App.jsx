@@ -191,7 +191,7 @@ function App() {
               {/* 404 Catch-all */}
               <Route path="*" element={<NotFound />} />
             </Routes>
-            <InstallPWA /> {/* Add this line */}
+            <InstallPWA />
           </UserProvider>
         </CartProvider>
       </AuthProvider>
