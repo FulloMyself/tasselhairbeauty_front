@@ -223,6 +223,177 @@ const Home = () => {
           </div>
         </section>
 
+        {/* MATRIC DANCE SPECIAL BANNER */}
+        <section className="matric-banner-section" style={{
+          background: 'linear-gradient(135deg, #1a1a18 0%, #2a2520 50%, #9a8060 100%)',
+          padding: '40px 20px',
+          position: 'relative',
+          overflow: 'hidden'
+        }}>
+          {/* Decorative sparkles */}
+          <div style={{
+            position: 'absolute',
+            top: '10px',
+            right: '15%',
+            fontSize: '2rem',
+            color: '#c4a97d',
+            opacity: 0.6,
+            animation: 'sparkle 2s infinite'
+          }}>✦</div>
+          <div style={{
+            position: 'absolute',
+            bottom: '15px',
+            left: '10%',
+            fontSize: '1.5rem',
+            color: '#c4a97d',
+            opacity: 0.4,
+            animation: 'sparkle 3s infinite 1s'
+          }}>✧</div>
+
+          <div className="matric-banner-content" style={{
+            maxWidth: '800px',
+            margin: '0 auto',
+            textAlign: 'center',
+            position: 'relative',
+            zIndex: 2
+          }}>
+            <div className="matric-badge" style={{
+              display: 'inline-block',
+              background: 'linear-gradient(135deg, #c4a97d, #9a8060)',
+              color: 'white',
+              padding: '6px 20px',
+              borderRadius: '30px',
+              fontSize: '0.75rem',
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase',
+              fontWeight: '500',
+              marginBottom: '15px',
+              animation: 'pulseBadge 2s infinite'
+            }}>
+              <i className="fas fa-star" style={{ marginRight: '6px' }}></i>
+              Limited Time Offer
+            </div>
+
+            <h2 className="matric-title" style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: 'clamp(1.8rem, 4vw, 2.8rem)',
+              fontWeight: '300',
+              color: '#faf8f5',
+              marginBottom: '12px',
+              lineHeight: 1.2
+            }}>
+              Matric Dance <em style={{ color: '#c4a97d', fontStyle: 'italic' }}>Makeup & Styling</em>
+              <br />Special
+            </h2>
+
+            <p className="matric-subtitle" style={{
+              fontSize: 'clamp(0.9rem, 1.5vw, 1.1rem)',
+              color: 'rgba(250, 248, 245, 0.8)',
+              marginBottom: '20px',
+              fontWeight: '300'
+            }}>
+              Look stunning on your special night! Book your complete Matric Dance look today.
+            </p>
+
+            <div className="matric-features" style={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '20px',
+              flexWrap: 'wrap',
+              marginBottom: '25px'
+            }}>
+              <span style={{
+                background: 'rgba(255, 255, 255, 0.1)',
+                padding: '8px 16px',
+                borderRadius: '20px',
+                fontSize: '0.8rem',
+                color: '#faf8f5'
+              }}>
+                <i className="fas fa-paint-brush" style={{ color: '#c4a97d', marginRight: '6px' }}></i>
+                Professional Makeup
+              </span>
+              <span style={{
+                background: 'rgba(255, 255, 255, 0.1)',
+                padding: '8px 16px',
+                borderRadius: '20px',
+                fontSize: '0.8rem',
+                color: '#faf8f5'
+              }}>
+                <i className="fas fa-cut" style={{ color: '#c4a97d', marginRight: '6px' }}></i>
+                Hair Styling
+              </span>
+              <span style={{
+                background: 'rgba(255, 255, 255, 0.1)',
+                padding: '8px 16px',
+                borderRadius: '20px',
+                fontSize: '0.8rem',
+                color: '#faf8f5'
+              }}>
+                <i className="fas fa-hand-sparkles" style={{ color: '#c4a97d', marginRight: '6px' }}></i>
+                Nail Art
+              </span>
+            </div>
+
+            <div className="matric-cta" style={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '15px',
+              flexWrap: 'wrap'
+            }}>
+              <button
+                className="btn-primary matric-book-btn"
+                onClick={() => navigate('/booking')}
+                style={{
+                  background: '#c4a97d',
+                  color: '#1a1a18',
+                  padding: '14px 30px',
+                  borderRadius: '30px',
+                  fontSize: '0.85rem',
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  fontWeight: '500',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => e.target.style.background = '#faf8f5'}
+                onMouseLeave={(e) => e.target.style.background = '#c4a97d'}
+              >
+                <i className="fas fa-calendar-check" style={{ marginRight: '8px' }}></i>
+                Book Your Matric Look
+              </button>
+
+              <a
+                href="https://wa.me/27729605153?text=Hi%20Tassel%20Studio%2C%20I%20want%20to%20enquire%20about%20the%20Matric%20Dance%20special."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-outline matric-whatsapp-btn"
+                style={{
+                  background: 'transparent',
+                  color: '#faf8f5',
+                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  padding: '14px 30px',
+                  borderRadius: '30px',
+                  fontSize: '0.85rem',
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  fontWeight: '500',
+                  textDecoration: 'none',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  display: 'inline-flex',
+                  alignItems: 'center'
+                }}
+                onMouseEnter={(e) => { e.target.style.borderColor = '#25D366'; e.target.style.color = '#25D366'; }}
+                onMouseLeave={(e) => { e.target.style.borderColor = 'rgba(255, 255, 255, 0.3)'; e.target.style.color = '#faf8f5'; }}
+              >
+                <i className="fab fa-whatsapp" style={{ marginRight: '8px', fontSize: '1.1rem' }}></i>
+                WhatsApp Us
+              </a>
+            </div>
+          </div>
+        </section>
+
         {/* INTRO STRIP */}
         <div className="intro-strip">
           <p>A calm, professional studio offering <span>kiddies hair specialists</span>, <span>barber services</span>, adult hair, nails, skin and beauty — all in <span>one beautiful space.</span></p>
